@@ -1,6 +1,6 @@
 # Original context and request-lifecycle audit
 
-Status: static review, 2026-09-05. Input: [context.txt](../../context.txt), SHA-256 `9C11221DC563226405C762A88E2DFC8DA797DAFE4BAFC2817C2188311E9DDC7D`. Line references below refer to the original file. No sample has been compiled or benchmarked.
+Status: static review, 2026-09-05. The original idea collection is preserved in [commit d0dd24d](https://github.com/MutugiD/Aegis-Norm/blob/d0dd24d807459e218abad6538345b07c5aa58b38/context.txt), with original SHA-256 `9C11221DC563226405C762A88E2DFC8DA797DAFE4BAFC2817C2188311E9DDC7D`. Line references below refer to that historical text, not the now-streamlined [product context](../product-context.md). The notes are exploratory input, not authoritative requirements or validated code. No sample has been compiled or benchmarked. [Design exploration](05-design-exploration.md) develops alternatives beyond the notes.
 
 | Claim or example | Assessment | Correction / implementation consequence |
 |---|---|---|
