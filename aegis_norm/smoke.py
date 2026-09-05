@@ -131,7 +131,7 @@ def main():
         "commit": command(["git", "rev-parse", "HEAD"]),
         "worktree": command(["git", "status", "--porcelain"]),
         "status": "not_run",
-        "rmsnorm_native": "not_implemented",
+        "rmsnorm_native": "not_tested_by_vector_smoke",
         "performance": "not_measured",
         "build_cache": "reuse_requested" if args.reuse_build_cache else "fresh",
         "source_sha256": {

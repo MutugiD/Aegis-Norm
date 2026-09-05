@@ -75,9 +75,9 @@ def test_invalid_metadata(x, weight, error):
 
 def test_dispatch_is_honest_and_strict():
     args = (torch.ones(2), torch.ones(2), 1e-5)
-    assert explain_dispatch(*args).reason == "native_rmsnorm_not_implemented"
+    assert explain_dispatch(*args).reason == "unsupported_device"
     assert explain_dispatch(*args, backend="reference").reason == "explicit_reference"
-    with pytest.raises(RuntimeError, match="not implemented"):
+    with pytest.raises(RuntimeError, match="unsupported_device"):
         rms_norm(*args, backend="cuda")
     with pytest.raises(ValueError, match="backend"):
         rms_norm(*args, backend="unknown")

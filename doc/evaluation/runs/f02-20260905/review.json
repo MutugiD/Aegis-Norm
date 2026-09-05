@@ -1,0 +1,30 @@
+{
+  "review_date": "2026-09-06",
+  "tested_commit": "d8f5ee5c129c66e7db5214a1cf4522df58eb525f",
+  "archive_sha256": "1a198bc9112cb63d9965a7d91e840a9959091b68386364703a60e1aeb2984cbf",
+  "artifact_hashes_verified": 20,
+  "source_hashes_verified": 10,
+  "native_tests": {
+    "passed": 223,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suite_seconds": 42.421
+  },
+  "foundation_tests": {
+    "passed": 38,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suite_seconds": 94.615
+  },
+  "compilation": "compiler_and_linker_commands_present_for_both_extensions",
+  "status": "initial_native_correctness_passed",
+  "performance": "not_measured",
+  "remaining": [
+    "sanitizers",
+    "independent reproduction",
+    "qualified portable dependency lock",
+    "performance evaluation"
+  ]
+}

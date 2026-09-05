@@ -1,4 +1,4 @@
-"""Cast-ordered reference. F01 never dispatches RMSNorm to the smoke extension."""
+"""Cast-ordered reference and explicit dispatch to the native RMSNorm operator."""
 
 import math
 import numbers
@@ -43,11 +43,36 @@ def _validate(x, weight, eps, backend):
 def explain_dispatch(x, weight, eps, *, backend="auto") -> DispatchDecision:
     """Validate inputs and expose the execution choice without running tensor math."""
     _validate(x, weight, eps, backend)
-    if backend == "cuda":
-        raise RuntimeError("Native RMSNorm is not implemented in F01; use reference")
     if backend == "reference":
         return DispatchDecision("reference", "explicit_reference")
-    return DispatchDecision("reference", "native_rmsnorm_not_implemented")
+    reason = _native_reason(x, weight)
+    if reason:
+        if backend == "cuda":
+            raise RuntimeError(f"Native RMSNorm unavailable: {reason}; call load_native on T4")
+        return DispatchDecision("reference", reason)
+    return DispatchDecision("cuda", "native_rmsnorm")
+
+
+def _native_reason(x, weight):
+    from ..native import is_loaded
+
+    if x.device.type != "cuda":
+        return "unsupported_device"
+    if x.dtype not in (torch.float16, torch.float32) or x.dtype != weight.dtype:
+        return "unsupported_dtype"
+    if not x.is_contiguous() or not weight.is_contiguous():
+        return "noncontiguous_input"
+    if x.shape[-1] > 65536:
+        return "unsupported_width"
+    if x.numel() // x.shape[-1] > 2**31 - 1:
+        return "unsupported_row_count"
+    if torch.is_grad_enabled() and (x.requires_grad or weight.requires_grad):
+        return "active_gradients"
+    if not is_loaded():
+        return "native_extension_not_loaded"
+    if torch.cuda.get_device_capability(x.device) != (7, 5):
+        return "unsupported_capability"
+    return None
 
 
 def rms_norm(x, weight, eps, *, backend="auto") -> torch.Tensor:
@@ -55,9 +80,11 @@ def rms_norm(x, weight, eps, *, backend="auto") -> torch.Tensor:
 
     Reference tensor operations execute on x.device, including CUDA when x is
     on the T4. Normal PyTorch autograd and weight dtype promotion are retained.
-    No CUDA extension is compiled or loaded by this function.
+    Native mode requires prior explicit loading. This function never compiles code.
     """
-    explain_dispatch(x, weight, eps, backend=backend)
+    decision = explain_dispatch(x, weight, eps, backend=backend)
+    if decision.backend == "cuda":
+        return torch.ops.aegis_norm.rms_norm(x, weight, float(eps))
     x32 = x.float()
     inverse_rms = torch.rsqrt(x32.square().mean(dim=-1, keepdim=True) + float(eps))
     normalized = (x32 * inverse_rms).to(x.dtype)

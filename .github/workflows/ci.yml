@@ -90,7 +90,7 @@ jobs:
         shell: bash
         run: |
           python -m pip install --no-deps dist/*.whl
-          python -I -c "from importlib.resources import files; from aegis_norm import rms_norm; import torch; assert files('aegis_norm').joinpath('csrc/smoke_cuda.cu').is_file(); assert rms_norm(torch.ones(2), torch.ones(2), 1e-5).shape == (2,)"
+          python -I -c "from importlib.resources import files; from aegis_norm import rms_norm, load_native; import torch; assert files('aegis_norm').joinpath('csrc/smoke_cuda.cu').is_file(); assert files('aegis_norm').joinpath('csrc/rmsnorm_cuda.cu').is_file(); assert rms_norm(torch.ones(2), torch.ones(2), 1e-5).shape == (2,)"
       - name: Check package dependencies
         run: python -m pip check
       - name: Test supporting code and notebook syntax (GPU tests deselected)
