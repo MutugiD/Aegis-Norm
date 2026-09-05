@@ -1,6 +1,6 @@
 # Requirement, feature, test and evidence map
 
-Status: release requirements specified; initial F01 reference/preflight and GPU smoke tests passed in the [contributor run](../evaluation/05-f01-gpu-evidence-review.md). Full native RMSNorm, integration and serving cases remain pending. Test definitions are in the [test plan](../testing/01-test-plan.md); evidence format is in the [evaluation protocol](../evaluation/01-protocol.md). Executed documentation-tool tests are recorded separately.
+Status: release requirements specified; initial F01 reference/preflight and GPU smoke tests passed in the [contributor run](../evaluation/05-f01-gpu-evidence-review.md). Initial F02 native cases passed in the [complete run](../evaluation/06-f02-gpu-evidence-review.md); sanitizer, integration and serving cases remain pending. Test definitions are in the [test plan](../testing/01-test-plan.md); evidence format is in the [evaluation protocol](../evaluation/01-protocol.md). Executed documentation-tool tests are recorded separately.
 
 | Requirement | Feature | Tests | Required evidence |
 |---|---|---|---|

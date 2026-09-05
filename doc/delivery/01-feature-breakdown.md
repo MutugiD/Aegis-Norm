@@ -2,7 +2,7 @@
 
 Status: implementation backlog, not completed software. [Traceability](02-traceability.md) maps requirements to tests. D0-D3 are documentation increments; F01-F13 are subsequent implementation/evaluation increments.
 
-F01 code and its initial notebook are implemented; the contributor run passed both GPU smoke tests. Standalone build metadata and a qualified environment lock remain tracked evidence gaps, not a claim that GPU execution failed. See the [concept and code walkthrough](../implementation/01-foundation-walkthrough.md). F01 is integrated with those evidence gaps recorded. F02 forward code and tests are implemented; native RMSNorm numerical qualification is pending. Supplementary CPU checks cannot establish native correctness.
+F01 code and its initial notebook are implemented; the contributor run passed both GPU smoke tests. The F02 run supplies standalone build metadata and a resolved version inventory; a qualified portable environment lock remains outstanding. See the [concept and code walkthrough](../implementation/01-foundation-walkthrough.md). F01 is integrated with those evidence gaps recorded. F02 forward code and tests are implemented; the initial 223-case native RMSNorm suite passed on T4; sanitizer/reproduction gates remain pending. Supplementary CPU checks cannot establish native correctness.
 
 | Feature | Depends on | Deliverable / PR boundary | Acceptance and evidence |
 |---|---|---|---|

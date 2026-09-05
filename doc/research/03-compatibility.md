@@ -1,10 +1,10 @@
 # Compatibility and capacity matrix
 
-Status: initial T4 smoke evidence, not a release support claim. Reviewed 2026-09-05. The [contributor run](../evaluation/05-f01-gpu-evidence-review.md) passed 38 tests including native GPU smoke checks; standalone build metadata and fresh-session reproduction remain incomplete.
+Status: initial T4 smoke evidence, not a release support claim. Reviewed 2026-09-05. The [contributor run](../evaluation/05-f01-gpu-evidence-review.md) passed 38 tests including native GPU smoke checks; the subsequent complete F02 run supplies build metadata and 223 passing native tests; independent reproduction remains outstanding.
 
 ## F01 candidate C2
 
-F01 uses Python 3.11-3.13, PyTorch 2.14.0/cu126 and CUDA toolkit 12.6 in an isolated Linux x86_64 T4 notebook environment. The [2.14 release](https://pytorch.org/blog/pytorch-2-14-release-blog/) lists cu126 distribution support. The direct 2.8.0 package audit found eight known vulnerabilities; 2.14.0 had none at review time. Full resolved-environment audits run in package CI. Neither audit establishes GPU compatibility. F01 preflight captures exact compiler, driver and memory; initial native smoke execution passed, while complete build/run artifacts remain pending. See the [walkthrough](../implementation/01-foundation-walkthrough.md).
+F01 uses Python 3.11-3.13, PyTorch 2.14.0/cu126 and CUDA toolkit 12.6 in an isolated Linux x86_64 T4 notebook environment. The [2.14 release](https://pytorch.org/blog/pytorch-2-14-release-blog/) lists cu126 distribution support. The direct 2.8.0 package audit found eight known vulnerabilities; 2.14.0 had none at review time. Full resolved-environment audits run in package CI. Neither audit establishes GPU compatibility. F01 preflight captures exact compiler, driver and memory; the [complete F02 run](../evaluation/06-f02-gpu-evidence-review.md) supplies compilation, metadata and 223 passing native tests for Python 3.13.15. This does not qualify every Python version in the candidate range. See the [walkthrough](../implementation/01-foundation-walkthrough.md).
 
 ## Historical validation candidate C1 (superseded for F01)
 

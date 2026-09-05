@@ -1,6 +1,6 @@
 # F02: native RMSNorm forward
 
-Status: implementation ready for T4 qualification; native RMSNorm compilation, numerical results and sanitizer runs are not yet executed. F01's passing vector smoke does not validate this kernel.
+Status: initial T4 compilation and correctness passed in the [F02 contributor run](../evaluation/06-f02-gpu-evidence-review.md): 223 native tests, no failures or skips. Sanitizer and independent reproduction remain outstanding.
 
 ## Explicit load and dispatch
 
@@ -44,4 +44,4 @@ This is initial T-K01..T-K07 coverage. It does not establish all release gates: 
 
 ## Sources
 
-The implementation follows the project [operator contract](../architecture/02-operator-contract.md) and PyTorch's [custom operator registration guidance](https://docs.pytorch.org/tutorials/advanced/cpp_custom_ops.html), [dispatcher guidance](https://docs.pytorch.org/tutorials/advanced/dispatcher) and [explicit extension loader](https://docs.pytorch.org/docs/main/cpp_extension.html), checked 2026-09-06. GPU results remain pending execution.
+The implementation follows the project [operator contract](../architecture/02-operator-contract.md) and PyTorch's [custom operator registration guidance](https://docs.pytorch.org/tutorials/advanced/cpp_custom_ops.html), [dispatcher guidance](https://docs.pytorch.org/tutorials/advanced/dispatcher) and [explicit extension loader](https://docs.pytorch.org/docs/main/cpp_extension.html), checked 2026-09-06. Initial GPU correctness results are recorded in the linked review; no performance result is claimed.
