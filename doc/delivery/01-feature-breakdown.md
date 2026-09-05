@@ -8,7 +8,7 @@ Status: implementation backlog, not completed software. [Traceability](02-tracea
 | D1 Research foundation | D0 | Master plan, source register, feasibility, context preservation | Primary-source claims and experiment gates recorded |
 | D2 Architecture and PRDs | D1 | Lifecycle, operator/API contracts, decisions, product requirements | Complete first-release behavior; future scope separated |
 | D3 Validation and delivery | D2 | This backlog, tests, evaluations, results templates, operations | Links/examples/traceability checked; no invented results |
-| F01 Package and preflight | D3 | Python package/reference, source-build metadata, environment report | CPU import/reference pass; C1 or documented C2 build smoke; resolved dependency lock |
+| F01 Package and preflight | D3 | Python package/reference, source-build metadata, environment report, minimal T4 setup/build notebook | Compile and execute a native smoke operation in a C1 or documented C2 T4 notebook; run reference on CUDA tensors; export build/run logs and resolved dependency lock |
 | F02 Correct native RMSNorm | F01 | Dispatcher, C++ validation, scalar CUDA reduction and strict native API | T-K01..T-K08 pass on T4; preserve FP16 cast boundary |
 | F03 Framework registration | F02 | FakeTensor support, opcheck and unsupported-autograd behavior | T-K09; no full-model compilation claim |
 | F04 Kernel experiments | F02 | One measured candidate per PR: geometry, packing, then optional value retention | T-K10 plus full correctness regression; reject losing candidates rather than merging for novelty |
@@ -30,9 +30,11 @@ Each PR body states problem, resulting behavior, affected requirement IDs, exact
 
 Initial planned package surfaces are `aegis_norm.ops`, `aegis_norm.integrations`, C++/CUDA `csrc`, `server`, `tests`, `benchmarks` and `notebooks`. F01 creates executable commands and documents them; commands in these planning documents are not advertised as currently runnable modules.
 
+F01 targets compilation and execution inside the contributor's Colab/Kaggle Linux T4 session. The notebook VM's CPU runs the host compiler and `nvcc`; its T4 executes the resulting CUDA code. F01 includes a minimal native smoke operation to verify this path before F02 implements RMSNorm. The smoke operation does not establish RMSNorm correctness or speed. A usable setup/build notebook is required in F01; F06 expands this into the full contributor workflow, model runs and artifact recovery. No local CUDA build is required. CPU-only package import and reference checks are supplementary CI checks, not the feature's acceptance evidence.
+
 ## Learning progression
 
-Optional local exercises progress through scalar multiplication, vector addition, block reduction, warp reduction, then RMSNorm. They are learning aids, not product features or substitutes for tests. Keep exercises outside release benchmarks so product evidence always measures the declared operator and model.
+Optional CUDA exercises run in the GPU notebook and progress through scalar multiplication, vector addition, block reduction, warp reduction, then RMSNorm. They are learning aids, not product features or substitutes for tests. Keep exercises outside release benchmarks so product evidence always measures the declared operator and model.
 
 ## Later-product backlog
 
