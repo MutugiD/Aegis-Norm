@@ -18,6 +18,12 @@ Collected ideas are curated in [product-context.md](product-context.md), with cl
 - PRDs: [kernel library](prd/01-kernel-library.md), [testing/demo](prd/02-testing-and-demo.md), [future product](prd/03-future-serving-product.md).
 - [Feature breakdown](delivery/01-feature-breakdown.md), [traceability](delivery/02-traceability.md), and [test plan](testing/01-test-plan.md).
 
-Detailed evaluation/artifact protocols, results status and operations guides follow in the next documentation increment.
+## Evaluation and operations
+
+- [Evaluation protocol](evaluation/01-protocol.md): kernel, model and serving measurements.
+- [Artifact contract](evaluation/02-artifact-contract.md), [regression fixtures](evaluation/fixtures.json), and [not-run manifest](evaluation/manifest.example.json).
+- [Results and qualification status](evaluation/03-results.md).
+- [Contributor guide](operations/01-contributor-guide.md), [deployment and remote access](operations/02-deployment-and-access.md), and [risk/release checklist](operations/03-risk-and-release.md).
+- [Documentation validation record](delivery/03-documentation-validation.md).
 
 [CI/CD](operations/04-ci-cd.md) validates documentation and repository tooling and delivers a documentation archive. It does not establish GPU correctness or performance.

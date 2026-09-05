@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "run_id": null,
+  "parent_run_id": null,
+  "status": "not_run",
+  "started_at": null,
+  "finished_at": null,
+  "code_commit": null,
+  "protocol_version": "1",
+  "contributor_id": null,
+  "provider": null,
+  "environment": null,
+  "model": null,
+  "configuration": {"experiment": "EXP-KERNEL", "profile": "required", "backend_modes": ["reference", "cuda"], "ordering_seed": 2026, "trial_count": 30, "timing_scope": "operator_sequence"},
+  "artifacts": [],
+  "limitations": ["Template only. No GPU execution or performance measurement has occurred."]
+}

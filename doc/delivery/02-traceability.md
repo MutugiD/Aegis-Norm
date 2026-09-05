@@ -1,6 +1,6 @@
 # Requirement, feature, test and evidence map
 
-Status: specified; all software tests below are pending execution. Test definitions are in the [test plan](../testing/01-test-plan.md). The next documentation increment supplies the full evaluation protocol and artifact format.
+Status: specified; all product software tests below are pending execution. Test definitions are in the [test plan](../testing/01-test-plan.md); evidence format is in the [evaluation protocol](../evaluation/01-protocol.md). Executed documentation-tool tests are recorded separately.
 
 | Requirement | Feature | Tests | Required evidence |
 |---|---|---|---|

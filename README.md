@@ -22,6 +22,9 @@ Aegis-Norm is an inference product initiative centered on a native CUDA RMSNorm 
 | [Research findings](doc/research/01-feasibility.md) | Evidence, alternatives and feasibility |
 | [Feature breakdown](doc/delivery/01-feature-breakdown.md) | Incremental implementation and PR boundaries |
 | [Test plan](doc/testing/01-test-plan.md) | Numerical, integration and API acceptance scenarios |
+| [Evaluation status](doc/evaluation/03-results.md) | Current results and qualification status |
+
+Repository CI validates documentation and Python tooling, audits dependencies, runs CodeQL, and produces a documentation artifact. These checks do not establish CUDA correctness or inference performance.
 
 ## Evidence status
 
