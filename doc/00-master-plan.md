@@ -6,7 +6,7 @@ Status: implementation specification; documentation milestone. Updated: 2026-09-
 
 Aegis-Norm is a small inference product with a custom CUDA RMSNorm operation. Explain and validate the complete request path: client, API, chat formatting, tokenization, prefill, model operations, fused normalization, cached decode, sampling, and response streaming. A faster isolated kernel is useful evidence, but does not establish a faster product.
 
-The immediate deliverable is this research and documentation package. The CUDA package, notebooks, server, and GPU results described here are planned work, not existing functionality. Read the [documentation index](README.md) in order.
+The documentation milestone is complete. F01 now contains package/reference code, preflight and a native build-smoke notebook; initial T4 smoke tests passed, with standalone build metadata still pending. Native RMSNorm, model integration, server and performance results remain planned work. Read the [documentation index](README.md) and [F01 walkthrough](implementation/01-foundation-walkthrough.md).
 
 ## Agreed boundaries
 
@@ -38,7 +38,7 @@ Research precedes architecture and PRDs. D1 findings inform D2; these documents 
 
 ## Repository workflow
 
-Remote: `git@github.com:MutugiD/Aegis-Norm.git`. Initial branch: `main`. Initial README-only commit: `first commit`. Subsequent commits use `/task: ...` for research/documentation/setup and `/feat: ...` for product features. PR titles use `task: ...` or `feat: ...`, without a leading slash. PR descriptions cover context, purpose, changes and completed tests; internal delivery rules belong in contributor guidance. No generated author trailers or assistant branding.
+Remote: `git@github.com:MutugiD/Aegis-Norm.git`. Initial branch: `main`. Initial README-only commit: `first commit`. Subsequent commits use `task: ...` for research/documentation/setup and `feat: ...` for product features. PR titles use `task: ...` or `feat: ...`, without a leading slash. PR descriptions cover context, purpose, changes and completed tests; internal delivery rules belong in contributor guidance. No generated author trailers or assistant branding.
 
 Use one coherent prerequisite or feature per PR, with no more than one open PR at a time. Open the PR, wait for its required checks to turn green, merge it, update local main, and only then create the next branch from main. Do not stack PRs or force-push. Curate the collected ideas as `doc/product-context.md`, with readable diagrams, structured sections and research questions at the bottom; remove the superseded `.txt` file. The original unedited collection remains in Git history.
 

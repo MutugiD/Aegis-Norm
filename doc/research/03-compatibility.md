@@ -1,8 +1,12 @@
 # Compatibility and capacity matrix
 
-Status: source-verified candidates, not a tested support claim. Reviewed 2026-09-05. The first GPU run is EXP-ENV. No GPU endpoint, driver report, or notebook environment has been supplied.
+Status: initial T4 smoke evidence, not a release support claim. Reviewed 2026-09-05. The [contributor run](../evaluation/05-f01-gpu-evidence-review.md) passed 38 tests including native GPU smoke checks; standalone build metadata and fresh-session reproduction remain incomplete.
 
-## First validation candidate C1
+## F01 candidate C2
+
+F01 uses Python 3.11-3.13, PyTorch 2.14.0/cu126 and CUDA toolkit 12.6 in an isolated Linux x86_64 T4 notebook environment. The [2.14 release](https://pytorch.org/blog/pytorch-2-14-release-blog/) lists cu126 distribution support. The direct 2.8.0 package audit found eight known vulnerabilities; 2.14.0 had none at review time. Full resolved-environment audits run in package CI. Neither audit establishes GPU compatibility. F01 preflight captures exact compiler, driver and memory; initial native smoke execution passed, while complete build/run artifacts remain pending. See the [walkthrough](../implementation/01-foundation-walkthrough.md).
+
+## Historical validation candidate C1 (superseded for F01)
 
 | Component | Selected candidate / rule | Evidence and status |
 |---|---|---|
@@ -18,7 +22,7 @@ Status: source-verified candidates, not a tested support claim. Reviewed 2026-09
 | Triton / compile | Optional, not required | [Current upstream](https://github.com/triton-lang/triton) lists NVIDIA 8.0+; C1 T4 compilation may be unavailable |
 | Other dependencies | Resolve during I1, export a complete lock/freeze with artifacts | No silent claim of a tested complete environment |
 
-C1 is a deliberately fixed reproducibility experiment, not a recommendation to deploy an old dependency stack publicly. Newer notebook images are separate candidate rows, not silently substituted into C1. If the provider cannot supply C1, record its actual versions and propose C2 with the same correctness contract. Do not downgrade provider drivers or silently uninstall preloaded packages. Use a dedicated environment when possible; restart the notebook kernel after package changes.
+C1 is retained as the historical research candidate; use C2 for the initial build notebook. Do not downgrade provider drivers or silently uninstall preloaded packages. Use the notebook's dedicated environment. Changes to C2 require a recorded alternative candidate with the same correctness contract; later Transformers/model support must be requalified.
 
 The driver's reported CUDA maximum, the wheel's runtime version, and `nvcc --version` are different facts. Record all three. Actual driver sufficiency is established by importing PyTorch, a CUDA tensor smoke operation, and compiling/running the extension; missing compiler support is not a correctness pass.
 

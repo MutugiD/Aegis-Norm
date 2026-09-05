@@ -1,0 +1,9 @@
+# F01 direct pins. Select the CPU or cu126 torch index explicitly before installing.
+# These are not a qualified T4 environment lock; notebook runs export resolution.
+torch==2.14.0
+pip==26.2.1
+setuptools==84.0.0
+build==1.6.0
+pytest==9.1.1
+ninja==1.13.2
+pip-audit==2.10.1

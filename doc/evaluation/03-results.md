@@ -4,14 +4,14 @@ Status: **not yet measured**. Updated: 2026-09-05. This document is intentionall
 
 | Experiment | Execution status | Result | Evidence |
 |---|---|---|---|
-| EXP-ENV: T4 build/preflight | Not run | Not yet measured | No GPU session supplied |
+| EXP-ENV: T4 build/preflight | GPU smoke tests passed; standalone build metadata incomplete | 38 tests passed including two GPU cases; no failures/skips | [GPU evidence review](05-f01-gpu-evidence-review.md) |
 | EXP-NUM: native correctness | Not run | Not yet measured | Operator not implemented |
 | EXP-KERNEL: latency/traffic | Not run | Not yet measured | No raw timings |
 | EXP-MODEL: numeric/generation/performance | Not run | Not yet measured | No model execution |
 | EXP-SERVE: client experience | Not run | Not yet measured | No server implementation or endpoint |
 | EXP-REPRO: independent contributor | Not run | Not yet measured | No contributor artifacts |
 
-The C1 compatibility matrix is a selected experiment, not a passing support matrix. Documentation validation, source inspection and algebraic memory estimates are not GPU qualification. No speedup, TTFT reduction, VRAM saving, throughput increase or operational cost reduction is established.
+The C2 compatibility candidate is not a passing support matrix. Contributor setup logs are partial environment evidence, not GPU execution qualification. Documentation validation, source inspection and algebraic memory estimates are not GPU qualification. No speedup, TTFT reduction, VRAM saving, throughput increase or operational cost reduction is established.
 
 ## Per-run report to add after execution
 

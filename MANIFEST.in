@@ -1,0 +1,7 @@
+include requirements-foundation.txt requirements-ci.txt ruff.toml
+recursive-include notebooks *.ipynb
+recursive-include tools *.py
+recursive-include doc *.md *.json
+recursive-include doc/evaluation/logs *.txt
+recursive-include doc/evaluation/runs *.zip *.ipynb
+recursive-include .github *.yml

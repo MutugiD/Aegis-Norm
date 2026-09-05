@@ -1,6 +1,6 @@
 # Correctness, integration and functionality testing
 
-Status: protocol specified; implementation tests not executed. Test implementation follows the feature PRs. Use pytest-style automated tests, parameterization and fixed seeds. Do not make CI download model weights for basic CPU tests.
+Status: full release protocol specified. F01 reference/preflight/package tests are implemented; the contributor run passed both initial GPU smoke tests; full native RMSNorm tests remain unexecuted. Partial F01 coverage does not complete the native RMSNorm cases below. Use pytest-style automated tests, parameterization and fixed seeds. Do not make CI download model weights for basic CPU tests.
 
 ## Numerical contract and data
 
