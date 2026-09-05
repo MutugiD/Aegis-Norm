@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "purpose": "Small public regression corpus; not a general quality benchmark",
+  "cases": [
+    {"id": "q01", "prompt": "Explain CUDA memory coalescing in two sentences.", "continuation": "Threads in a warp can access nearby addresses so the memory system can service their requests efficiently. The access pattern and alignment influence how much data must be transferred."},
+    {"id": "q02", "prompt": "What is the difference between GPU memory and a register?", "continuation": "GPU global memory stores large tensors used across operations. A register holds a small value close to the execution of an individual thread, with limited capacity."},
+    {"id": "q03", "prompt": "Compute 17 plus 25 and explain your arithmetic.", "continuation": "Seventeen plus twenty is thirty-seven. Adding the remaining five gives forty-two."},
+    {"id": "q04", "prompt": "Write a short Python function that returns the square of a number.", "continuation": "def square(x):\n    return x * x\n\nThis function multiplies its input by itself and returns the result."},
+    {"id": "q05", "prompt": "Describe a quiet morning beside a lake.", "continuation": "A pale light spread across the still water. A bird called from the reeds while a small boat rested against the wooden dock."},
+    {"id": "q06", "prompt": "Explain why a faster component may barely change an application's total time.", "continuation": "The component may account for only a small fraction of the total work. Time spent elsewhere remains, limiting the overall improvement even when that component becomes much faster."},
+    {"id": "q07", "prompt": "Repeat these symbols in a sentence: café, Nairobi, λ, GPU.", "continuation": "At a café in Nairobi, a student used the symbol λ while explaining a GPU calculation."},
+    {"id": "q08", "prompt": "Give two practical checks before comparing inference benchmarks.", "continuation": "First confirm that the runs use the same model, inputs and precision. Then check that compilation, warmup and synchronization are handled consistently and that failed requests remain visible."}
+  ]
+}

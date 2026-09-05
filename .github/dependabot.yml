@@ -7,14 +7,14 @@ updates:
     # Maintainer enables update PRs only when the one-PR queue is empty.
     open-pull-requests-limit: 0
     commit-message:
-      prefix: /task
+      prefix: task
   - package-ecosystem: pip
     directory: /
     schedule:
       interval: weekly
     open-pull-requests-limit: 0
     commit-message:
-      prefix: /task
+      prefix: task
     groups:
       ci-tooling:
         patterns: ['*']

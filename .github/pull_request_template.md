@@ -2,13 +2,13 @@
 
 Describe the concrete problem and the final behavior/documentation introduced.
 
-## Requirements and scope
+## Changes
 
-List requirement/feature IDs. Confirm this branch starts from updated main after the preceding PR was green and merged; no other PR is open.
+Describe the meaningful changes and why they address the problem. Include relevant requirement/feature IDs where useful to a reviewer.
 
 ## Validation
 
-List commands and outcomes. For GPU changes include environment, run ID, numerical checks and raw evidence. Distinguish tests run from planned, unavailable or skipped checks.
+List tests actually run and their outcomes. For GPU changes include environment, run ID, numerical checks and raw evidence. Do not include internal branching, approval or delivery instructions.
 
 ## Risks and limitations
 
