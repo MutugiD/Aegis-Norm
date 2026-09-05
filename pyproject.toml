@@ -27,4 +27,3 @@ aegis_norm = ["csrc/*.cpp", "csrc/*.cu"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["gpu: requires a qualified T4 notebook and native build"]
-
