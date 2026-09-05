@@ -4,8 +4,10 @@ import argparse
 import hashlib
 import json
 import os
+import signal
 import subprocess
 import sys
+import tempfile
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -75,12 +77,39 @@ def run_checks(extension):
 
 
 def write_json(path, data):
-    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(path)
+
+
+def execute_worker(output, env):
+    """Bound the Linux worker and its compiler children, including interruption."""
+    with (output / "build.log").open("w", encoding="utf-8") as log:
+        with subprocess.Popen(
+            [sys.executable, "-m", "aegis_norm.smoke", "--worker", str(output.resolve())],
+            stdout=log,
+            stderr=subprocess.STDOUT,
+            env=env,
+            start_new_session=os.name == "posix",
+        ) as child:
+            try:
+                return child.wait(timeout=900)
+            except (subprocess.TimeoutExpired, KeyboardInterrupt):
+                if os.name == "posix":
+                    try:
+                        os.killpg(child.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                else:
+                    child.kill()
+                child.wait()
+                raise
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=Path("artifacts"))
+    parser.add_argument("--reuse-build-cache", action="store_true")
     parser.add_argument("--worker", type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.worker:
@@ -94,7 +123,7 @@ def main():
     report = collect()
     write_json(output / "preflight.json", report)
     (output / "environment-versions.txt").write_text(dependency_snapshot(), encoding="utf-8")
-    sources = Path(__file__).parent / "csrc"
+    sources = Path(__file__).parent
     result = {
         "schema_version": 1,
         "run_id": run_id,
@@ -104,8 +133,11 @@ def main():
         "status": "not_run",
         "rmsnorm_native": "not_implemented",
         "performance": "not_measured",
+        "build_cache": "reuse_requested" if args.reuse_build_cache else "fresh",
         "source_sha256": {
-            p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(sources.iterdir())
+            p.relative_to(sources).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in sorted(sources.rglob("*"))
+            if p.is_file() and p.suffix in (".py", ".cpp", ".cu")
         },
     }
     write_json(output / "result.json", result)  # Survives interrupted compilation.
@@ -116,16 +148,21 @@ def main():
         result["status"] = "running"
         write_json(output / "result.json", result)
         try:
-            with (output / "build.log").open("w", encoding="utf-8") as log:
-                child = subprocess.run(
-                    [sys.executable, "-m", "aegis_norm.smoke", "--worker", str(output.resolve())],
-                    stdout=log,
-                    stderr=subprocess.STDOUT,
-                    timeout=900,
-                    check=False,
-                )
-            result["status"] = "passed" if child.returncode == 0 else "failed"
-            result["returncode"] = child.returncode
+            worker_env = os.environ.copy()
+            if not args.reuse_build_cache:
+                worker_env["TORCH_EXTENSIONS_DIR"] = tempfile.mkdtemp(prefix="aegis-native-")
+            result["build_directory"] = worker_env.get("TORCH_EXTENSIONS_DIR")
+            write_json(output / "result.json", result)
+            code = execute_worker(output, worker_env)
+            checks_path = output / "checks.json"
+            checks = json.loads(checks_path.read_text()) if checks_path.is_file() else {}
+            if not isinstance(checks, dict):
+                raise ValueError("checks.json must contain an object")
+            passed = (
+                code == 0 and checks.get("status") == "passed" and len(checks.get("cases", [])) == 8
+            )
+            result["status"] = "passed" if passed else "failed"
+            result["returncode"] = code
         except subprocess.TimeoutExpired:
             result["status"] = "timed_out"
         except KeyboardInterrupt:
@@ -133,6 +170,9 @@ def main():
         except OSError as error:
             result["status"] = "failed"
             result["error"] = str(error)
+        except (ValueError, TypeError) as error:
+            result["status"] = "failed"
+            result["error"] = f"Invalid worker evidence: {error}"
     write_json(output / "result.json", result)
     hashes = {
         p.name: hashlib.sha256(p.read_bytes()).hexdigest()
