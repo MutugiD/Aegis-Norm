@@ -1,6 +1,6 @@
 # F01: package, reference and T4 build walkthrough
 
-Status: code implemented; T4 build/run qualification pending. This increment addresses the F01 portion of REQ-K01 and REQ-K05, with initial T-K01/T-N01/T-N02 coverage. It does not complete F02 or establish RMSNorm speed.
+Status: code implemented; initial T4 smoke tests passed, complete artifact qualification pending. See the [contributor evidence review](../evaluation/05-f01-gpu-evidence-review.md). This increment addresses the F01 portion of REQ-K01 and REQ-K05, with initial T-K01/T-N01/T-N02 coverage. It does not complete F02 or establish RMSNorm speed.
 
 ## 1. What the package contains
 
@@ -80,7 +80,7 @@ The standalone CLI records the current working directory's Git identity; run it 
 
 Supporting tests cover known values, the FP16 cast boundary, odd widths, empty tensors, noncontiguous reference inputs, mixed dtypes, autograd, invalid metadata/epsilon, special values, dispatch explanations, preflight failures and notebook Python syntax. Package CI builds both distributions, installs the wheel, verifies included native sources and audits resolved dependencies. GPU tests are explicitly deselected in CPU CI.
 
-The notebook smoke checks native output and input preservation, empty/odd vectors, a side stream and the reference on FP16/FP32 CUDA tensors. Additional GPU tests reject invalid binding inputs. None of these results may be reported as native RMSNorm correctness, model acceleration or benchmark evidence. Required T4 evidence is pending; F01 is not qualified until it is attached and reviewed.
+The notebook smoke checks native output and input preservation, empty/odd vectors, a side stream and the reference on FP16/FP32 CUDA tensors. Additional GPU tests reject invalid binding inputs. None of these results may be reported as native RMSNorm correctness, model acceleration or benchmark evidence. The first contributor run passed 38 tests including both GPU cases, but omitted standalone build metadata; F01 remains unqualified until the missing evidence and reproduction gate are resolved.
 
 ## Sources and candidate change
 

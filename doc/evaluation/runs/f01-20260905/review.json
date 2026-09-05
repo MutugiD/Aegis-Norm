@@ -1,0 +1,32 @@
+{
+  "review_status": "partial_evidence",
+  "tested_commit": "a50b8ce6d88fb9c8419490a9fe984f2e2cf7cabf",
+  "pytest": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "includes_gpu_smoke_tests": true,
+    "elapsed_seconds": 97.574
+  },
+  "environment_reported": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu126",
+    "gpu": "Tesla T4",
+    "nvcc": "12.6.85",
+    "compiler": "GCC 11.4.0"
+  },
+  "missing": [
+    "preflight.json",
+    "standalone smoke result.json",
+    "checks.json",
+    "build.log",
+    "environment-versions.txt",
+    "run source/artifact hashes"
+  ],
+  "performance": "not_measured",
+  "received_sha256": {
+    "evidence.zip": "eea09f680fffcd8e4ac24de4130c437299344cc665efb65ba9259c1ee8413bd5",
+    "executed-notebook.ipynb": "a8ddaafeab0fc44b8443a11bd2cbbb30af9a80a4aa6e3caaacf69fd05ee586b0"
+  }
+}

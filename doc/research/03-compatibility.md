@@ -1,10 +1,10 @@
 # Compatibility and capacity matrix
 
-Status: source-verified candidates, not a tested support claim. Reviewed 2026-09-05. EXP-ENV now has [partial contributor setup logs](../evaluation/04-f01-setup-review.md); environment creation failed before native compilation. No completed GPU run manifest has been supplied.
+Status: initial T4 smoke evidence, not a release support claim. Reviewed 2026-09-05. The [contributor run](../evaluation/05-f01-gpu-evidence-review.md) passed 38 tests including native GPU smoke checks; standalone build metadata and fresh-session reproduction remain incomplete.
 
 ## F01 candidate C2
 
-F01 uses Python 3.11-3.13, PyTorch 2.14.0/cu126 and CUDA toolkit 12.6 in an isolated Linux x86_64 T4 notebook environment. The [2.14 release](https://pytorch.org/blog/pytorch-2-14-release-blog/) lists cu126 distribution support. The direct 2.8.0 package audit found eight known vulnerabilities; 2.14.0 had none at review time. Full resolved-environment audits run in package CI. Neither audit establishes GPU compatibility. F01 preflight captures exact compiler, driver and memory; actual T4 build/run remains pending. See the [walkthrough](../implementation/01-foundation-walkthrough.md).
+F01 uses Python 3.11-3.13, PyTorch 2.14.0/cu126 and CUDA toolkit 12.6 in an isolated Linux x86_64 T4 notebook environment. The [2.14 release](https://pytorch.org/blog/pytorch-2-14-release-blog/) lists cu126 distribution support. The direct 2.8.0 package audit found eight known vulnerabilities; 2.14.0 had none at review time. Full resolved-environment audits run in package CI. Neither audit establishes GPU compatibility. F01 preflight captures exact compiler, driver and memory; initial native smoke execution passed, while complete build/run artifacts remain pending. See the [walkthrough](../implementation/01-foundation-walkthrough.md).
 
 ## Historical validation candidate C1 (superseded for F01)
 

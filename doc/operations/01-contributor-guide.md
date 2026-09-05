@@ -1,6 +1,6 @@
 # Contributor and notebook workflow
 
-Status: F01 package, preflight and initial build notebook implemented; required GPU execution pending. Use the [F01 walkthrough](../implementation/01-foundation-walkthrough.md) for executable steps. The full model/evaluation workflow below remains F02-F06 work.
+Status: F01 package, preflight and initial build notebook implemented; initial GPU smoke tests passed; complete run metadata pending. Use the [F01 walkthrough](../implementation/01-foundation-walkthrough.md) for executable steps. The full model/evaluation workflow below remains F02-F06 work.
 
 ## Local development and review
 

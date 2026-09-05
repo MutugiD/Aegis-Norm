@@ -2,7 +2,7 @@
 
 Aegis-Norm is an inference product initiative centered on a native CUDA RMSNorm operation, Hugging Face model integration, and a minimal streaming API. Its initial hardware target is a single NVIDIA T4 in an independent contributor-operated Colab or Kaggle session.
 
-**Current stage: F01 implementation; T4 qualification pending.** The repository contains an installable Python package, the cast-ordered RMSNorm reference, environment preflight, a native vector smoke extension and an executable T4 build notebook. Native RMSNorm, model integration and the inference server remain planned. No GPU build or execution result is claimed yet.
+**Current stage: F01 GPU smoke passed; artifact qualification incomplete.** The repository contains an installable Python package, the cast-ordered RMSNorm reference, environment preflight, a native vector smoke extension and an executable T4 build notebook. A contributor run passed 38 tests, including both GPU smoke cases. Its standalone build metadata is missing; see the [evidence review](doc/evaluation/05-f01-gpu-evidence-review.md). Native RMSNorm, model integration and the inference server remain planned.
 
 Start with the [F01 concept walkthrough](doc/implementation/01-foundation-walkthrough.md) and [T4 build notebook](notebooks/01-t4-build-smoke.ipynb). Compilation and required CUDA tests run inside the Colab/Kaggle session; no local CUDA installation is required. The native smoke calculates `y = 3 * x` to exercise the build/execution path; it is not RMSNorm.
 

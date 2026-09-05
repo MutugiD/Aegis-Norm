@@ -4,7 +4,7 @@ Status: **not yet measured**. Updated: 2026-09-05. This document is intentionall
 
 | Experiment | Execution status | Result | Evidence |
 |---|---|---|---|
-| EXP-ENV: T4 build/preflight | Setup in progress; blocked at environment creation | Toolkit 12.6.85 and GCC 11.4.0 reported; native build unexecuted | [Contributor setup review](04-f01-setup-review.md) |
+| EXP-ENV: T4 build/preflight | GPU smoke tests passed; standalone build metadata incomplete | 38 tests passed including two GPU cases; no failures/skips | [GPU evidence review](05-f01-gpu-evidence-review.md) |
 | EXP-NUM: native correctness | Not run | Not yet measured | Operator not implemented |
 | EXP-KERNEL: latency/traffic | Not run | Not yet measured | No raw timings |
 | EXP-MODEL: numeric/generation/performance | Not run | Not yet measured | No model execution |
