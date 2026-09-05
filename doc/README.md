@@ -7,3 +7,5 @@ The project is at the documentation milestone. No CUDA, model, or serving perfor
 Status vocabulary: **specified** means intended behavior; **source-verified** means checked against an identified source; **candidate** means selected for experiment; **tested** requires a recorded execution; **not yet measured** means no performance evidence exists.
 
 Original input: [context.txt](../context.txt). The additional request-lifecycle explanation supplied during planning informs the architecture; corrections are recorded in the claim audit.
+
+[CI/CD](operations/04-ci-cd.md) validates documentation and repository tooling and delivers a documentation archive. It does not establish GPU correctness or performance.

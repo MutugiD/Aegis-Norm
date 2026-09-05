@@ -2,4 +2,4 @@
 *.md text eol=lf
 *.json text eol=lf
 *.jsonl text eol=lf
-context.txt -text
+context.txt -text -whitespace
