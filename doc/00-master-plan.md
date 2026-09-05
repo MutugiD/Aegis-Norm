@@ -39,7 +39,9 @@ Research precedes architecture and PRDs. D1 findings inform D2; these documents 
 
 Remote: `git@github.com:MutugiD/Aegis-Norm.git`. Initial branch: `main`. Initial README-only commit: `first commit`. Subsequent commits use `/task: ...` for research/documentation/setup and `/feat: ...` for product features. No generated author trailers or assistant branding.
 
-Use one coherent prerequisite or feature per PR, with no more than one open PR at a time. Wait for green checks, merge, update main, then create the next branch from main. Do not stack PRs or force-push. The collected context is exploratory input, not authoritative requirements. This initial import preserves the original contents for history; the product-context increment curates it into Markdown and removes the text file.
+Use one coherent prerequisite or feature per PR, with no more than one open PR at a time. Open the PR, wait for its required checks to turn green, merge it, update local main, and only then create the next branch from main. Do not stack PRs or force-push. Curate the collected ideas as `doc/product-context.md`, with readable diagrams, structured sections and research questions at the bottom; remove the superseded `.txt` file. The original unedited collection remains in Git history.
+
+The collected ideas are not authoritative requirements or validated code. They suggest questions and possible approaches. Primary-source research, explicit product decisions and eventual experiments determine what is retained, revised, rejected or newly proposed.
 
 ## Completion and evidence
 

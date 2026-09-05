@@ -13,10 +13,10 @@ Status: workflows and documentation-validation tooling implemented; hosted-run o
 | pip-audit | Push, PR, weekly, manual | Known vulnerabilities in declared tooling dependencies and resolved transitives; findings fail the job |
 | Dependency review | PR | Newly introduced known vulnerabilities at moderate severity or above block the check |
 | CodeQL Python | Push, PR, weekly, manual | Security analysis of actual Python validation tools/tests; not CUDA analysis |
-| Dependabot | Weekly after default-branch configuration exists | Reviewable updates to pinned actions and Python tooling |
+| Dependabot | Weekly configuration; update PR limit currently zero | Maintainer-controlled updates preserve the one-open-PR rule; dependency alerts and audits remain active |
 | Documentation bundle | After documentation/tooling matrix passes | Downloadable ZIP artifact of README and doc, retained 14 days |
 
-CI runs Linux/Python 3.11 and Windows/Python 3.12. All third-party actions are pinned to full commit SHAs with version comments; updates arrive through review. Checkout credentials are not persisted. Default workflow permissions are read-only; CodeQL alone receives security-events write. No personal token is stored in workflows or required by normal CI. PR jobs use `pull_request`, not privileged `pull_request_target` execution.
+CI runs Linux/Python 3.11 and Windows/Python 3.12. All third-party actions are pinned to full commit SHAs with version comments; updates require review. Dependabot version-update PRs are paused with a zero limit so automation cannot open a second PR while feature work is active. Enable/update one dependency change only when the PR queue is empty, then restore the limit. Dependency alerts and vulnerability audits continue. Checkout credentials are not persisted. Default workflow permissions are read-only; CodeQL alone receives security-events write. No personal token is stored in workflows or required by normal CI. PR jobs use `pull_request`, not privileged `pull_request_target` execution.
 
 The repository is public, so the selected security checks target public-repository capabilities. Dependency graph/security settings can still affect availability; a failed/unavailable hosted check must be investigated, not converted to a passing result. Scheduled runs and Dependabot require configuration on the default branch. Open only one PR at a time, wait for green checks, merge, then branch again from updated main.
 
