@@ -1,6 +1,6 @@
 # Normalization and integration contracts
 
-Status: specified for v0.1; not an implemented API. [Kernel PRD](../prd/01-kernel-library.md) owns requirements.
+Status: v0.1 contract. F01 implements the public reference and inspectable dispatch; native RMSNorm and model adaptation remain specified. [Kernel PRD](../prd/01-kernel-library.md) owns requirements. The separate vector smoke extension does not implement the registered RMSNorm schema.
 
 ## Public API
 

@@ -41,11 +41,11 @@ jobs:
       - name: Check dependency compatibility
         run: python -m pip check
       - name: Lint validation tooling
-        run: python -m ruff check tools tests
+        run: python -m ruff check tools tests aegis_norm
       - name: Check Python formatting
-        run: python -m ruff format --check tools tests
+        run: python -m ruff format --check tools tests aegis_norm
       - name: Test documentation validator
-        run: python -m unittest discover -s tests -p 'test_*.py' -v
+        run: python -m unittest discover -s tests -p 'test_doc_validation.py' -v
       - name: Validate documentation, examples, traceability and workflows
         run: python tools/check_docs.py
       - name: Check whitespace in this change
@@ -58,6 +58,58 @@ jobs:
           else
             git show --format= --check HEAD
           fi
+
+  package:
+    name: Package and reference (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: '3.11'
+          - os: windows-latest
+            python: '3.12'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements-foundation.txt
+      - name: Install supplementary CPU test environment
+        run: |
+          python -m pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-foundation.txt -r requirements-ci.txt
+      - name: Build source distribution and wheel
+        run: python -m build
+      - name: Install and inspect built wheel outside source imports
+        shell: bash
+        run: |
+          python -m pip install --no-deps dist/*.whl
+          python -I -c "from importlib.resources import files; from aegis_norm import rms_norm; import torch; assert files('aegis_norm').joinpath('csrc/smoke_cuda.cu').is_file(); assert rms_norm(torch.ones(2), torch.ones(2), 1e-5).shape == (2,)"
+      - name: Check package dependencies
+        run: python -m pip check
+      - name: Test supporting code and notebook syntax (GPU tests deselected)
+        run: python -m pytest -m 'not gpu' --junitxml=package-tests.xml
+      - name: Audit installed package and resolved dependencies
+        run: python -m pip_audit --format json --output package-audit.json
+      - name: Audit canonical direct pins including the PyTorch public release
+        run: python -m pip_audit -r requirements-foundation.txt --no-deps --disable-pip --format json --output foundation-audit.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: package-${{ matrix.os }}-${{ github.sha }}
+          path: |
+            dist/
+            package-tests.xml
+            package-audit.json
+            foundation-audit.json
+          if-no-files-found: error
+          retention-days: 14
 
   documentation-bundle:
     name: Deliver validated documentation artifact

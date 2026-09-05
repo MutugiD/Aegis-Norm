@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis-norm"
+version = "0.1.0.dev0"
+description = "T4 notebook foundation for CUDA RMSNorm development"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["torch>=2.14,<2.15"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+native = ["ninja==1.13.2"]
+
+[project.scripts]
+aegis-preflight = "aegis_norm.preflight:main"
+aegis-smoke = "aegis_norm.smoke:main"
+
+[tool.setuptools.packages.find]
+include = ["aegis_norm*"]
+
+[tool.setuptools.package-data]
+aegis_norm = ["csrc/*.cpp", "csrc/*.cu"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["gpu: requires a qualified T4 notebook and native build"]
+

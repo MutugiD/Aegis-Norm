@@ -1,6 +1,6 @@
 # Contributor and notebook workflow
 
-Status: implementation runbook. The product package, test commands and notebooks are not yet implemented. This guide specifies what F01/F06 must make reproducible; the current repository contains documentation.
+Status: F01 package, preflight and initial build notebook implemented; required GPU execution pending. Use the [F01 walkthrough](../implementation/01-foundation-walkthrough.md) for executable steps. The full model/evaluation workflow below remains F02-F06 work.
 
 ## Local development and review
 
@@ -31,9 +31,9 @@ Provider notebooks must contain actual executable cells once F06 is implemented,
 
 ## Candidate installation and build rules
 
-The C1 initial wheel selection is `torch==2.8.0` from the official cu126 index and `transformers==4.56.2`. A complete dependency lock is produced in F01 after resolution and smoke verification. Match toolkit family and record GCC; do not mistake `nvidia-smi`'s CUDA display for installed nvcc. Source builds use `TORCH_CUDA_ARCH_LIST=7.5` for the required T4 artifact and conservatively set `MAX_JOBS=2` to limit host build memory.
+F01 supersedes the earlier 2.8.0 wheel selection with candidate C2: `torch==2.14.0` from the official cu126 index and toolkit 12.6, following dependency audit findings. The notebook creates an isolated environment and installs the foundation package without Transformers or model weights. F05 must revalidate its model dependency selection. A qualified environment lock remains pending T4 execution; the smoke exports resolved versions. Match toolkit family and record GCC; do not mistake `nvidia-smi`'s CUDA display for installed nvcc. Source builds use `TORCH_CUDA_ARCH_LIST=7.5` and `MAX_JOBS=2`.
 
-Do not automatically replace a notebook's Python/driver/toolkit to force C1. If C1 cannot run, capture the provider environment as C2 and review its compatibility before comparing it with C1. An existing torch import alone does not establish extension compatibility. Pin model and tokenizer to `fe8a4ea1ffedaf415f4da2f062534de366a451e6`; keep model cache separate from exported results.
+Do not automatically replace a notebook's Python/driver/toolkit to force C2. If C2 cannot run, capture the provider environment and review an alternative candidate before comparisons. An existing torch import alone does not establish extension compatibility. Later model tests pin model and tokenizer to `fe8a4ea1ffedaf415f4da2f062534de366a451e6`; keep model cache separate from exported results.
 
 ## Quota-aware execution
 

@@ -2,6 +2,8 @@
 
 Status: implementation backlog, not completed software. [Traceability](02-traceability.md) maps requirements to tests. D0-D3 are documentation increments; F01-F13 are subsequent implementation/evaluation increments.
 
+F01 code and its initial notebook are implemented; T4 compilation/execution evidence and a qualified environment lock remain pending. See the [concept and code walkthrough](../implementation/01-foundation-walkthrough.md). Supplementary CPU checks do not complete this feature's GPU acceptance gate.
+
 | Feature | Depends on | Deliverable / PR boundary | Acceptance and evidence |
 |---|---|---|---|
 | D0 Bootstrap | Empty remote check | README-only main and remote | Initial commit pushed without rewriting history |
