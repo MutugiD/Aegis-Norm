@@ -1,0 +1,47 @@
+# Continuous integration and documentation delivery
+
+Status: workflows and documentation-validation tooling implemented; hosted-run outcomes are recorded separately. Product CUDA and inference tests remain planned.
+
+## Checks active at this stage
+
+| Check | Trigger | Meaning |
+|---|---|---|
+| Documentation validator | Branch push, PR, manual | Local link targets, balanced fences, JSON/SSE example syntax, requirement/test references, workflow conventions and credential-shaped content |
+| Validator unit tests | Same | Regression cases prove malformed examples, missing links and unsafe workflow conventions are detected |
+| Ruff lint/format | Same | Python repository-tooling quality |
+| pip check | Same | Installed CI dependency compatibility |
+| pip-audit | Push, PR, weekly, manual | Known vulnerabilities in declared tooling dependencies and resolved transitives; findings fail the job |
+| Dependency review | PR | Newly introduced known vulnerabilities at moderate severity or above block the check |
+| CodeQL Python | Push, PR, weekly, manual | Security analysis of actual Python validation tools/tests; not CUDA analysis |
+| Dependabot | Weekly after default-branch configuration exists | Reviewable updates to pinned actions and Python tooling |
+| Documentation bundle | After documentation/tooling matrix passes | Downloadable ZIP artifact of README and doc, retained 14 days |
+
+CI runs Linux/Python 3.11 and Windows/Python 3.12. All third-party actions are pinned to full commit SHAs with version comments; updates arrive through review. Checkout credentials are not persisted. Default workflow permissions are read-only; CodeQL alone receives security-events write. No personal token is stored in workflows or required by normal CI. PR jobs use `pull_request`, not privileged `pull_request_target` execution.
+
+The repository is public, so the selected security checks target public-repository capabilities. Dependency graph/security settings can still affect availability; a failed/unavailable hosted check must be investigated, not converted to a passing result. Scheduled runs and Dependabot require configuration on the default branch. Open only one PR at a time, wait for green checks, merge, then branch again from updated main.
+
+## Local validation
+
+Create a dedicated Python environment, install `requirements-ci.txt`, then run:
+
+```text
+python -m pip check
+python -m ruff check tools tests
+python -m ruff format --check tools tests
+python -m unittest discover -s tests -p "test_*.py" -v
+python tools/check_docs.py
+python -m pip_audit -r requirements-ci.txt
+git diff --check
+```
+
+The validator checks local targets, not remote link availability or Markdown fragment anchors. Its credential check covers common token/key shapes; it is not a comprehensive secret-scanning service. Mermaid diagrams are kept as readable Markdown source; diagram rendering and semantic GPU behavior are not certified by these syntax checks.
+
+## Delivery and future gates
+
+The current CD output is a validated documentation artifact, not an automatic deployment to a GPU session, package registry or public website. The bundle waits for documentation/tooling checks; security workflows report independently and must also pass before merge/release. No inference binary is published before code exists.
+
+F01 adds package build/install and CPU reference tests. F02 adds an explicitly invoked trusted GPU qualification workflow/notebook, numerical/stream checks and sanitizer evidence. GPU testing must not execute untrusted PR code with credentials on a persistent self-hosted runner. F05/F08 add real model and API functionality; F13 adds release artifact verification and explicit publishing gates. Add C++ CodeQL analysis when actual host-side C++ exists and qualify its coverage separately; CodeQL does not replace CUDA race/memory tests.
+
+Recommended required checks once workflows are established on main: both documentation/tooling matrix jobs, dependency audit, dependency review on PRs, and CodeQL. Branch protection is not changed automatically by this task.
+
+Sources checked 2026-09-05: [GitHub secure workflow use](https://docs.github.com/en/actions/reference/security/secure-use), [dependency review](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/configure-dependency-review-action), [CodeQL action](https://github.com/github/codeql-action), [pip-audit](https://github.com/pypa/pip-audit), [Dependabot configuration](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference).

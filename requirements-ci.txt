@@ -1,0 +1,4 @@
+# Tooling only; not the future CUDA/model runtime dependencies.
+PyYAML==6.0.3
+ruff==0.16.6
+pip-audit==2.10.1
