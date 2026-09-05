@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aegis-norm"
-version = "0.1.0.dev0"
+version = "0.1.0.dev1"
 description = "T4 notebook foundation for CUDA RMSNorm development"
 readme = "README.md"
 requires-python = ">=3.11"

@@ -1,6 +1,6 @@
 # Continuous integration and documentation delivery
 
-Status: documentation/security workflows and F01 package CI implemented; hosted-run outcomes are recorded separately. Required T4 qualification is pending; native RMSNorm and inference tests remain planned.
+Status: documentation/security workflows and package CI implemented; hosted-run outcomes are recorded separately. Initial vector-smoke GPU tests passed. F02 native RMSNorm tests are implemented but await T4 execution; inference tests remain planned.
 
 ## Checks active at this stage
 

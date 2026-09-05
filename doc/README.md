@@ -2,7 +2,7 @@
 
 Start with the [master plan](00-master-plan.md), then the [research findings](research/01-feasibility.md), [claim audit](research/02-context-audit.md), [compatibility matrix](research/03-compatibility.md), and [source register](research/04-sources.md).
 
-The documentation milestone is complete and F01 foundation code is implemented, with initial T4 smoke tests passed and complete artifact qualification pending. No CUDA, model, or serving performance has been measured. The [F01 walkthrough](implementation/01-foundation-walkthrough.md) explains each implemented concept and links the executable notebook.
+The documentation milestone is complete and F01 foundation code is implemented, with initial T4 smoke tests passed and complete artifact qualification pending. No CUDA, model, or serving performance has been measured. The [F01 walkthrough](implementation/01-foundation-walkthrough.md) explains the foundation. The [F02 walkthrough](implementation/02-native-rmsnorm.md) covers the new native RMSNorm implementation and qualification notebook; its GPU tests remain unexecuted.
 
 Status vocabulary: **specified** means intended behavior; **source-verified** means checked against an identified source; **candidate** means selected for experiment; **tested** requires a recorded execution; **not yet measured** means no performance evidence exists.
 

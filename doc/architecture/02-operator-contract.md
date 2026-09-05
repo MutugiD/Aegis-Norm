@@ -1,6 +1,6 @@
 # Normalization and integration contracts
 
-Status: v0.1 contract. F01 implements the public reference and inspectable dispatch; native RMSNorm and model adaptation remain specified. [Kernel PRD](../prd/01-kernel-library.md) owns requirements. The separate vector smoke extension does not implement the registered RMSNorm schema.
+Status: v0.1 contract. F02 implements the reference, inspectable dispatch, explicit native loading and CUDA forward; its GPU correctness is pending. Model adaptation remains specified. [Kernel PRD](../prd/01-kernel-library.md) owns requirements. The separate vector smoke extension does not implement the registered RMSNorm schema.
 
 ## Public API
 

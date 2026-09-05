@@ -6,7 +6,7 @@ Status: code implemented; initial T4 smoke tests passed, complete artifact quali
 
 The [package metadata](../../pyproject.toml) tells pip how to build a source distribution and a wheel. A wheel is an installable Python distribution. This wheel contains Python modules and the native source files, not a precompiled CUDA binary. The separate explicit smoke command compiles those sources inside the notebook session. No local CUDA installation is required.
 
-The Python import exposes `rms_norm` and `explain_dispatch`. Importing the top-level package does not invoke a compiler. `rms_norm` currently executes the reference implementation; requesting `backend="cuda"` raises a clear error because native RMSNorm belongs to F02. The smoke extension has a separate name and is never selected as RMSNorm.
+This walkthrough describes the F01 foundation; [F02](02-native-rmsnorm.md) adds native RMSNorm loading. The Python import exposes `rms_norm` and `explain_dispatch`. Importing the top-level package does not invoke a compiler. Without explicit native loading, `rms_norm` executes the reference implementation and `backend="cuda"` raises a clear error. F02 adds the native path. The smoke extension has a separate name and is never selected as RMSNorm.
 
 ## 2. Reference RMSNorm and precision
 
@@ -23,7 +23,7 @@ The final dimension contains the features of each token row. `keepdim=True` reta
 
 These are tensor operations: a CUDA input stays on CUDA. Reference does not mean CPU. CPU tests are supplementary checks of semantics and errors; required notebook tests run the reference with T4 tensors.
 
-`explain_dispatch(x, weight, eps)` reports `reference` with reason `native_rmsnorm_not_implemented` in auto mode. Invalid shapes, devices, dtype categories and epsilon values fail before execution; fallback does not repair malformed inputs.
+`explain_dispatch(x, weight, eps)` reports the selected backend and an inspectable fallback reason in auto mode. Invalid shapes, devices, dtype categories and epsilon values fail before execution; fallback does not repair malformed inputs.
 
 ## 3. Preflight: describe before building
 

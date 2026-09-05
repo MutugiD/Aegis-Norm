@@ -5,7 +5,7 @@ Status: **not yet measured**. Updated: 2026-09-05. This document is intentionall
 | Experiment | Execution status | Result | Evidence |
 |---|---|---|---|
 | EXP-ENV: T4 build/preflight | GPU smoke tests passed; standalone build metadata incomplete | 38 tests passed including two GPU cases; no failures/skips | [GPU evidence review](05-f01-gpu-evidence-review.md) |
-| EXP-NUM: native correctness | Not run | Not yet measured | Operator not implemented |
+| EXP-NUM: native correctness | Not run | Not yet measured | F02 implementation awaits T4 correctness execution |
 | EXP-KERNEL: latency/traffic | Not run | Not yet measured | No raw timings |
 | EXP-MODEL: numeric/generation/performance | Not run | Not yet measured | No model execution |
 | EXP-SERVE: client experience | Not run | Not yet measured | No server implementation or endpoint |
