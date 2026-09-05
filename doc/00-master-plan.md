@@ -38,7 +38,7 @@ Research precedes architecture and PRDs. D1 findings inform D2; these documents 
 
 ## Repository workflow
 
-Remote: `git@github.com:MutugiD/Aegis-Norm.git`. Initial branch: `main`. Initial README-only commit: `first commit`. Subsequent commits use `/task: ...` for research/documentation/setup and `/feat: ...` for product features. PR titles use `task: ...` or `feat: ...`, without a leading slash. PR descriptions cover context, purpose, changes and completed tests; internal delivery rules belong in contributor guidance. No generated author trailers or assistant branding.
+Remote: `git@github.com:MutugiD/Aegis-Norm.git`. Initial branch: `main`. Initial README-only commit: `first commit`. Subsequent commits use `task: ...` for research/documentation/setup and `feat: ...` for product features. PR titles use `task: ...` or `feat: ...`, without a leading slash. PR descriptions cover context, purpose, changes and completed tests; internal delivery rules belong in contributor guidance. No generated author trailers or assistant branding.
 
 Use one coherent prerequisite or feature per PR, with no more than one open PR at a time. Open the PR, wait for its required checks to turn green, merge it, update local main, and only then create the next branch from main. Do not stack PRs or force-push. Curate the collected ideas as `doc/product-context.md`, with readable diagrams, structured sections and research questions at the bottom; remove the superseded `.txt` file. The original unedited collection remains in Git history.
 

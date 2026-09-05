@@ -1,6 +1,6 @@
 # Compatibility and capacity matrix
 
-Status: source-verified candidates, not a tested support claim. Reviewed 2026-09-05. The first GPU run is EXP-ENV. No GPU endpoint, driver report, or notebook environment has been supplied.
+Status: source-verified candidates, not a tested support claim. Reviewed 2026-09-05. EXP-ENV now has [partial contributor setup logs](../evaluation/04-f01-setup-review.md); environment creation failed before native compilation. No completed GPU run manifest has been supplied.
 
 ## F01 candidate C2
 
