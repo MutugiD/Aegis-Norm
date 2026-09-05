@@ -14,6 +14,7 @@ The immediate deliverable is this research and documentation package. The CUDA p
 - One active generation and four waiting requests in the first demo. No continuous batching in this release.
 - Later product: browser interface, multi-request scheduling, supported model expansion, and operational capabilities selected using evidence.
 - Contributors use their own allocated Colab/Kaggle sessions. Required work runs inside notebooks; tunnels are optional and provider-dependent.
+- Compile the native extension inside the contributor's Linux T4 notebook environment and execute CUDA tests on its T4. Local CUDA installation, compilation and GPU hardware are not prerequisites. CPU CI validates supporting code; it cannot qualify the CUDA product.
 - No mandatory paid hardware, GPU fleet, shared account, training/backward kernel, BF16 release requirement, or 70B model deployment.
 - Report limited, negative, or inconclusive speedups honestly. Never fill results with illustrative numbers presented as measurements.
 
@@ -25,7 +26,7 @@ The immediate deliverable is this research and documentation package. The CUDA p
 | D1 | Master plan, source register, feasibility, compatibility and claim audit | Claims distinguished from measurements; research-dependent design choices identified |
 | D2 | Product definition, request lifecycle, architecture, interfaces, decisions, PRDs | First-release behavior is implementable; future proposals clearly labeled |
 | D3 | Feature backlog, traceability, tests, evaluations, results templates, operations | Requirements mapped to tests and evidence; document links and examples checked |
-| I1 | Build, reference, preflight | CPU reference and extension import contract work; T4 environment identified |
+| I1 | Notebook build, reference, preflight | Minimal notebook compiles and runs a native smoke operation on T4; reference runs on CUDA tensors; environment and dependency lock recorded |
 | I2 | Correct kernel | Numerical, layout, stream, and memory-safety tests pass on T4 |
 | I3 | Optimizations | Each candidate compared against correct baseline; regressions recorded |
 | I4 | Model integration | Patch, unpatch, generation, state preservation, reload verified |

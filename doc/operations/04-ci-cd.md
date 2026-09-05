@@ -40,7 +40,9 @@ The validator checks local targets, not remote link availability or Markdown fra
 
 The current CD output is a validated documentation artifact, not an automatic deployment to a GPU session, package registry or public website. The bundle waits for documentation/tooling checks; security workflows report independently and must also pass before merge/release. No inference binary is published before code exists.
 
-F01 adds package build/install and CPU reference tests. F02 adds an explicitly invoked trusted GPU qualification workflow/notebook, numerical/stream checks and sanitizer evidence. GPU testing must not execute untrusted PR code with credentials on a persistent self-hosted runner. F05/F08 add real model and API functionality; F13 adds release artifact verification and explicit publishing gates. Add C++ CodeQL analysis when actual host-side C++ exists and qualify its coverage separately; CodeQL does not replace CUDA race/memory tests.
+F01 adds supplementary package build/install and CPU reference checks in hosted CI, plus a required contributor-operated T4 notebook that compiles and executes a native smoke operation and runs the reference on CUDA tensors. Native builds happen inside the Linux GPU notebook environment, not on the contributor's local machine. CPU package checks do not certify the CUDA extension. Record the tested commit and environment with the GPU logs; green CPU CI alone does not complete F01.
+
+F02 extends the GPU notebook with RMSNorm numerical/stream checks and sanitizer evidence. GPU testing must not execute untrusted PR code with credentials on a persistent self-hosted runner. F05/F08 add real model and API functionality; F13 adds release artifact verification and explicit publishing gates. Add C++ CodeQL analysis when actual host-side C++ exists and qualify its coverage separately; CodeQL does not replace CUDA race/memory tests.
 
 Recommended required checks once workflows are established on main: both documentation/tooling matrix jobs, dependency audit, dependency review on PRs, and CodeQL. Branch protection is not changed automatically by this task.
 
