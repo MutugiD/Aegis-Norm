@@ -1,6 +1,6 @@
 # End-to-end feature and PR breakdown
 
-F03 registration and tests are implemented for review. T-K09 native opcheck and F02 dispatch regression evidence are pending; see the [framework walkthrough](../implementation/03-framework-registration.md).
+F03 registration and tests passed initial T4 execution: 42 registration/metadata cases and 223 numerical regression cases; see the [framework walkthrough](../implementation/03-framework-registration.md).
 
 Status: implementation backlog, not completed software. [Traceability](02-traceability.md) maps requirements to tests. D0-D3 are documentation increments; F01-F13 are subsequent implementation/evaluation increments.
 

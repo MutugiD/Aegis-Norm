@@ -1,6 +1,6 @@
 # Aegis-Norm
 
-F03 framework registration is implemented for review; its fresh T4 qualification is pending. See the [framework walkthrough](doc/implementation/03-framework-registration.md) and [F03 notebook](notebooks/03-t4-framework-registration.ipynb).
+F03 framework registration passed its initial T4 qualification: 42 registration/metadata tests and 223 numerical regression tests. See the [evidence review](doc/evaluation/07-f03-gpu-evidence-review.md). See the [framework walkthrough](doc/implementation/03-framework-registration.md) and [F03 notebook](notebooks/03-t4-framework-registration.ipynb).
 
 Aegis-Norm is an inference product initiative centered on a native CUDA RMSNorm operation, Hugging Face model integration, and a minimal streaming API. Its initial hardware target is a single NVIDIA T4 in an independent contributor-operated Colab or Kaggle session.
 

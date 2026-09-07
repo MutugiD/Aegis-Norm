@@ -1,6 +1,6 @@
 # F03: framework registration, step by step
 
-Status: implemented for review; contributor T4 compilation and execution are pending. The earlier [F02 evidence](../evaluation/06-f02-gpu-evidence-review.md) validates the prior dispatch implementation. This change requires fresh evidence. Implements REQ-K06 / T-K09; training and full-model compilation remain outside scope.
+Status: initial contributor T4 compilation and execution passed; see the [F03 review](../evaluation/07-f03-gpu-evidence-review.md). Implements REQ-K06 / T-K09; training and full-model compilation remain outside scope.
 
 ## 1. The mathematical operation stays the same
 
@@ -34,10 +34,10 @@ The Autograd handler rejects an active gradient requirement. Otherwise it exclud
 
 The local metadata fixture uses an isolated test schema with a Python Autograd adapter. It does not load or qualify the real C++ adapter. T4 tests exercise the actual native registration. `aot_eager` avoids requesting a Triton-generated kernel; it is not a performance baseline. The public dispatch wrapper and a complete model are not covered by a compilation guarantee.
 
-Supporting validation: 92 CPU tests pass, including 32 metadata cases and loader registration ordering/failure checks. Native GPU tests are deselected locally; the 10 new T4 framework cases remain unexecuted.
+Supporting validation: 92 CPU tests pass, including 32 metadata cases and loader registration ordering/failure checks. Native GPU tests are deselected locally; the 10 T4 framework cases and 32 metadata cases subsequently passed in the contributor run.
 
 ## 6. Run and review evidence
 
 Use [the F03 notebook](../../notebooks/03-t4-framework-registration.ipynb) with the feature commit's full SHA. Run every cell on T4. It exports fresh build evidence, the F02 regression JUnit report, `registration-tests.xml`, `registration-tests.log`, audit output and hashes in `aegis-f03-evidence.zip`. Review both success counts and skipped/failed cases before qualification. No timing in this suite is a benchmark.
 
-Sources: [PyTorch custom C++ operators](https://docs.pytorch.org/tutorials/advanced/cpp_custom_ops.html), [dispatcher and Autograd](https://docs.pytorch.org/tutorials/advanced/dispatcher), and [register_fake/opcheck contracts](https://docs.pytorch.org/docs/main/library.html). Checked against the selected PyTorch 2.14 environment; GPU results remain pending.
+Sources: [PyTorch custom C++ operators](https://docs.pytorch.org/tutorials/advanced/cpp_custom_ops.html), [dispatcher and Autograd](https://docs.pytorch.org/tutorials/advanced/dispatcher), and [register_fake/opcheck contracts](https://docs.pytorch.org/docs/main/library.html). Checked against the selected PyTorch 2.14 environment; initial GPU registration results passed in the linked evidence.

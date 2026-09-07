@@ -33,7 +33,7 @@ Reference mode uses that expression and PyTorch's normal promotion rules when we
 | Shape mismatch, nonfloating inputs, incompatible devices | Error | `ValueError` for metadata; `TypeError` for dtype category |
 | Extension unavailable / unsupported valid native case | Error in `cuda` mode | Reference with inspectable reason in `auto` mode |
 
-For raw `torch.ops` calls, invalid metadata or active gradient requirements raise `RuntimeError` with a specific condition; no backward kernel is registered. F03 adds metadata support with native qualification pending. FakeTensor support returns matching output metadata and validates shape/dtype relationships without reading values. Test registration with opcheck under inference conditions; numerical tests remain separate.
+For raw `torch.ops` calls, invalid metadata or active gradient requirements raise `RuntimeError` with a specific condition; no backward kernel is registered. F03 metadata support passed initial native registration qualification. FakeTensor support returns matching output metadata and validates shape/dtype relationships without reading values. Test registration with opcheck under inference conditions; numerical tests remain separate.
 
 Use 64-bit host/index arithmetic. Reject row count above the supported grid limit (2^31-1) before launch. Output preserves shape, dtype and device but is contiguous; it need not preserve a nonstandard stride because native input is contiguous. Invalid shape is not silently repaired by fallback. Native launches never catch a CUDA fault and retry on a damaged context.
 
