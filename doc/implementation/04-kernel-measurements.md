@@ -1,6 +1,6 @@
 # F04 measurement foundation
 
-Status: implementation ready for initial T4 execution; results are **not yet measured**. This is the first measurement increment supporting F04 and a provisional part of F09, not completed kernel optimization or the full release evaluation harness. Requirements: REQ-K07, REQ-E01, REQ-E02; initial supporting coverage for T-E01, T-E02 and T-E07.
+Status: initial T4 execution and raw-data review passed; see the [F04 evidence report](../evaluation/08-f04-measurement-review.md). This is the first measurement increment supporting F04 and a provisional part of F09, not completed kernel optimization or the full release evaluation harness. Requirements: REQ-K07, REQ-E01, REQ-E02; initial supporting coverage for T-E01, T-E02 and T-E07.
 
 ## What this increment does
 

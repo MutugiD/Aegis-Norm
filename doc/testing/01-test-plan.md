@@ -1,6 +1,6 @@
 # Correctness, integration and functionality testing
 
-The F04 measurement foundation adds initial paired-statistics, invalid-sample, failure-recovery and real T4 timing-path tests for T-E01/T-E02/T-E07. Full evaluation-schema validation remains F09 work; performance measurements are pending.
+The F04 measurement foundation adds initial paired-statistics, invalid-sample, failure-recovery and real T4 timing-path tests for T-E01/T-E02/T-E07. Full evaluation-schema validation remains F09 work; initial operator timing measurements passed review in the F04 archive.
 
 F03 adds metadata-only checks and a T4 registration suite for T-K09. The latter reruns F02 and exercises the real C++ adapter; initial T4 evidence passed (42 registration/metadata cases and 223 numerical regressions). See the [framework walkthrough](../implementation/03-framework-registration.md).
 
