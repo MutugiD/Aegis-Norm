@@ -16,7 +16,7 @@ Status: documentation/security workflows and package CI implemented; hosted-run 
 | CodeQL C/C++ | Same | Build-free analysis of host binding source; incomplete dependency/type inference is possible and `.cu` execution is not certified |
 | Dependabot | Weekly configuration; update PR limit currently zero | Maintainer-controlled updates preserve the one-open-PR rule; dependency alerts and audits remain active |
 | Documentation bundle | After documentation/tooling matrix passes | Downloadable ZIP artifact of README and doc, retained 14 days |
-| Package/reference | Linux 3.11 and Windows 3.12 | Build sdist/wheel, inspect installed wheel, test supporting code and notebook syntax; GPU tests explicitly deselected |
+| Package/reference | Linux 3.11 and Windows 3.12 | Build sdist/wheel, inspect installed wheel, test supporting code and notebook syntax; GPU tests explicitly deselected; F03 metadata and loader-order tests run on CPU |
 | Package dependency audits | Package jobs | Audit installed transitives and canonical direct pins; the latter covers the public PyTorch release when its `+cpu` wheel label is not found by the advisory service |
 | Package artifacts | Package jobs, including failure | Distribution files, JUnit and audit reports; no compiled CUDA wheel or GPU qualification claim |
 

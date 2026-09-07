@@ -1,5 +1,7 @@
 #include <ATen/ATen.h>
 #include <ATen/core/grad_mode.h>
+#include <ATen/core/LegacyTypeDispatch.h>
+#include <ATen/core/dispatch/Dispatcher.h>
 #include <ATen/cuda/CUDAContext.h>
 #include <torch/library.h>
 #include <cmath>
@@ -44,6 +46,16 @@ TORCH_LIBRARY_IMPL(aegis_norm, CUDA, library) {
 }
 
 // Reject active gradients explicitly rather than creating a silent wrong backward.
+at::Tensor rmsnorm_autograd(const at::Tensor& x, const at::Tensor& weight, double eps) {
+  TORCH_CHECK(!at::GradMode::is_enabled() || (!x.requires_grad() && !weight.requires_grad()),
+              "native RMSNorm is inference-only; use reference for active gradients");
+  at::AutoDispatchBelowAutograd guard;
+  static auto op = c10::Dispatcher::singleton()
+      .findSchemaOrThrow("aegis_norm::rms_norm", "")
+      .typed<at::Tensor(const at::Tensor&, const at::Tensor&, double)>();
+  return op.call(x, weight, eps);
+}
+
 TORCH_LIBRARY_IMPL(aegis_norm, Autograd, library) {
-  library.impl("rms_norm", &rmsnorm_checked);
+  library.impl("rms_norm", &rmsnorm_autograd);
 }
