@@ -1,5 +1,7 @@
 # End-to-end feature and PR breakdown
 
+F04 begins with the [measurement foundation](../implementation/04-kernel-measurements.md), a bounded prerequisite using provisional F09 machinery. It adds no kernel optimization. Initial GPU measurements are pending; compiler/third-party timing comparisons and full F09 artifact validation follow separately.
+
 F03 registration and tests passed initial T4 execution: 42 registration/metadata cases and 223 numerical regression cases; see the [framework walkthrough](../implementation/03-framework-registration.md).
 
 Status: implementation backlog, not completed software. [Traceability](02-traceability.md) maps requirements to tests. D0-D3 are documentation increments; F01-F13 are subsequent implementation/evaluation increments.
