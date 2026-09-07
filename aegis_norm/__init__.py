@@ -1,6 +1,6 @@
 """RMSNorm reference, explicit CUDA loading and notebook build tools."""
 
-__version__ = "0.1.0.dev1"
+__version__ = "0.1.0.dev2"
 __all__ = ["rms_norm", "explain_dispatch", "load_native", "__version__"]
 
 

@@ -1,5 +1,7 @@
 # Documentation index
 
+The [F03 framework walkthrough](implementation/03-framework-registration.md) explains FakeTensor metadata, Autograd redispatch and operator checks. Its initial T4 validation passed; see the [F03 evidence review](evaluation/07-f03-gpu-evidence-review.md).
+
 Start with the [master plan](00-master-plan.md), then the [research findings](research/01-feasibility.md), [claim audit](research/02-context-audit.md), [compatibility matrix](research/03-compatibility.md), and [source register](research/04-sources.md).
 
 The documentation milestone is complete and F01 foundation code is implemented, with passing foundation and native RMSNorm tests in the complete F02 archive. No CUDA, model, or serving performance has been measured. The [F01 walkthrough](implementation/01-foundation-walkthrough.md) explains the foundation. The [F02 walkthrough](implementation/02-native-rmsnorm.md) covers the new native RMSNorm implementation and qualification notebook; its initial 223-case GPU suite passed, as recorded in the [F02 evidence review](evaluation/06-f02-gpu-evidence-review.md).

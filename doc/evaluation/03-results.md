@@ -6,6 +6,7 @@ Status: **not yet measured**. Updated: 2026-09-05. This document is intentionall
 |---|---|---|---|
 | EXP-ENV: T4 build/preflight | Passed initial run | Fresh compiler logs, metadata, inventory and verified hashes; 38 foundation tests passed | [F02 review](06-f02-gpu-evidence-review.md) |
 | EXP-NUM: native correctness | Passed initial suite | 223 tests passed; no failures/errors/skips; sanitizer coverage pending | [F02 review](06-f02-gpu-evidence-review.md) |
+| EXP-REG: framework registration | Passed initial suite | 10 native framework and 32 metadata cases passed; 223 numerical regressions passed | [F03 review](07-f03-gpu-evidence-review.md) |
 | EXP-KERNEL: latency/traffic | Not run | Not yet measured | No raw timings |
 | EXP-MODEL: numeric/generation/performance | Not run | Not yet measured | No model execution |
 | EXP-SERVE: client experience | Not run | Not yet measured | No server implementation or endpoint |

@@ -5,7 +5,14 @@ from pathlib import Path
 import pytest
 
 
-@pytest.mark.parametrize("name", ["01-t4-build-smoke.ipynb", "02-t4-rmsnorm-correctness.ipynb"])
+@pytest.mark.parametrize(
+    "name",
+    [
+        "01-t4-build-smoke.ipynb",
+        "02-t4-rmsnorm-correctness.ipynb",
+        "03-t4-framework-registration.ipynb",
+    ],
+)
 def test_notebook_cells_are_executable_python_and_outputs_are_clean(name):
     path = Path(__file__).resolve().parents[1] / "notebooks" / name
     notebook = json.loads(path.read_text(encoding="utf-8"))

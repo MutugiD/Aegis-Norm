@@ -9,7 +9,7 @@ Status: release requirements specified; initial F01 reference/preflight and GPU 
 | REQ-K03 | F02 | T-K04, T-K05, T-K08 | Validation failures, empty/offset cases, sanitizer output |
 | REQ-K04 | F02 | T-K06, T-K07 | Stream/device and mutation tests |
 | REQ-K05 | F01, F02 | T-K01, T-K04 | Strict dispatch and fallback report |
-| REQ-K06 | F03 | T-K09 | FakeTensor/opcheck output or explicit P1 deferral |
+| REQ-K06 | F03 | T-K09 | [F03 test implementation](../implementation/03-framework-registration.md); [passing initial T4 evidence](../evaluation/07-f03-gpu-evidence-review.md) |
 | REQ-K07 | F04 | T-K10 | Paired distributions and regression decision |
 | REQ-I01 | F05 | T-I01, T-I02 | Parameter identities, patch paths and state comparisons |
 | REQ-I02 | F05, F10 | T-I03, T-E03 | Save/reload results, logits and text comparisons |

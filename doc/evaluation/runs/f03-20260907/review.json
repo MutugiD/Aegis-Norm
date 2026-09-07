@@ -1,0 +1,25 @@
+{
+  "status": "initial_framework_registration_passed",
+  "tested_commit": "ed512c97a084a6dc05c6d37502fbf435fc2802aa",
+  "run_id": "20260907T064135Z-a1b1bb4d",
+  "archive_sha256": "22d3dc91868c6b912fd726d53a5641a644a33ab25f1d2725c7ed95bb89866d0e",
+  "artifact_hashes_verified": 22,
+  "source_hashes_verified": 11,
+  "tests": {
+    "foundation": 38,
+    "rmsnorm": 223,
+    "registration": 42,
+    "registration_gpu": 10,
+    "registration_metadata": 32
+  },
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "performance": "not_measured",
+  "limitations": [
+    "single contributor environment",
+    "sanitizer pending",
+    "model integration pending",
+    "independent reproduction pending"
+  ]
+}

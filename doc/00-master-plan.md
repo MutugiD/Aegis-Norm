@@ -1,12 +1,12 @@
 # Aegis-Norm master plan
 
-Status: implementation specification; documentation milestone. Updated: 2026-09-05.
+Status: implementation specification; documentation milestone. Updated: 2026-09-07.
 
 ## Objective
 
 Aegis-Norm is a small inference product with a custom CUDA RMSNorm operation. Explain and validate the complete request path: client, API, chat formatting, tokenization, prefill, model operations, fused normalization, cached decode, sampling, and response streaming. A faster isolated kernel is useful evidence, but does not establish a faster product.
 
-The documentation milestone is complete. F01 now contains package/reference code, preflight and a native build-smoke notebook; the complete F02 run now supplies passing T4 smoke tests and standalone build metadata. F02 native RMSNorm passed its initial T4 numerical suite; model integration, server and performance results remain planned work. Read the [documentation index](README.md) and [F01 walkthrough](implementation/01-foundation-walkthrough.md).
+The documentation milestone is complete. F01 now contains package/reference code, preflight and a native build-smoke notebook; the complete F02 run now supplies passing T4 smoke tests and standalone build metadata. F02 native RMSNorm passed its initial T4 numerical suite; model integration, server and performance results remain planned work. F03 metadata registration and framework checks passed initial T4 execution, including the full F02 regression suite. Read the [documentation index](README.md) and [F01 walkthrough](implementation/01-foundation-walkthrough.md).
 
 ## Agreed boundaries
 

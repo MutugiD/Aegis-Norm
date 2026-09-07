@@ -47,6 +47,9 @@ def load_native(*, verbose=True):
         )
         if not hasattr(torch.ops.aegis_norm, "rms_norm"):
             raise RuntimeError("Native build did not register aegis_norm::rms_norm")
+        from .registration import register_fake
+
+        register_fake()
         _loaded = True
 
 
