@@ -1,5 +1,7 @@
 # Correctness, integration and functionality testing
 
+The F04 measurement foundation adds initial paired-statistics, invalid-sample, failure-recovery and real T4 timing-path tests for T-E01/T-E02/T-E07. Full evaluation-schema validation remains F09 work; initial operator timing measurements passed review in the F04 archive.
+
 F03 adds metadata-only checks and a T4 registration suite for T-K09. The latter reruns F02 and exercises the real C++ adapter; initial T4 evidence passed (42 registration/metadata cases and 223 numerical regressions). See the [framework walkthrough](../implementation/03-framework-registration.md).
 
 Status: full release protocol specified. F01 reference/preflight/package tests are implemented; the contributor run passed both initial GPU smoke tests; the initial 223 F02 native cases also passed; extended release coverage remains outstanding. Partial F01 coverage does not complete the native RMSNorm cases below. Use pytest-style automated tests, parameterization and fixed seeds. Do not make CI download model weights for basic CPU tests.

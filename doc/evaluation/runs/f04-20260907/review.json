@@ -1,0 +1,31 @@
+{
+  "status": "initial_operator_measurements_reviewed",
+  "tested_commit": "9a6dcc9ccdfcdeeb08c40a3988dfc655870508db",
+  "archive_sha256": "e3ca93fea1fa55ac4f5d3dae632768c0cfe9621dabfeb1a1e66b528bfa1bf4dc",
+  "top_level_artifact_hashes_verified": 36,
+  "nested_smoke_hashes_verified": 5,
+  "nested_measurement_hashes_verified": 14,
+  "source_hash_checks_verified": 42,
+  "summaries_recomputed": 88,
+  "raw_samples": 5280,
+  "tests_passed": 305,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "required_event_ratio_range": [
+    2.216164546418681,
+    8.850427695782551
+  ],
+  "safety_event_ratio_range": [
+    5.792361847035657,
+    8.378082754937346
+  ],
+  "groups_below_10ms": 1901,
+  "limitations": [
+    "ordinary warm-cache operator timing includes submission gaps",
+    "single contributor session",
+    "compiled/third-party timing not included",
+    "not a model or pure kernel speedup",
+    "calibration target not attained in every group"
+  ]
+}

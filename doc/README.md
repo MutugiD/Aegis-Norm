@@ -1,5 +1,7 @@
 # Documentation index
 
+Next: [F04 measurement foundation](implementation/04-kernel-measurements.md), which records paired eager/native samples before kernel tuning. Initial T4 timing evidence is [reviewed](evaluation/08-f04-measurement-review.md).
+
 The [F03 framework walkthrough](implementation/03-framework-registration.md) explains FakeTensor metadata, Autograd redispatch and operator checks. Its initial T4 validation passed; see the [F03 evidence review](evaluation/07-f03-gpu-evidence-review.md).
 
 Start with the [master plan](00-master-plan.md), then the [research findings](research/01-feasibility.md), [claim audit](research/02-context-audit.md), [compatibility matrix](research/03-compatibility.md), and [source register](research/04-sources.md).

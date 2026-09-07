@@ -1,18 +1,19 @@
 # Evaluation results and qualification status
 
-Status: **not yet measured**. Updated: 2026-09-05. This document is intentionally populated with honest status, not synthetic benchmark numbers.
+Status: initial operator timings measured; model/serving impact and traffic remain **not yet measured**. Updated: 2026-09-07. This document is intentionally populated with honest status, not synthetic benchmark numbers.
 
 | Experiment | Execution status | Result | Evidence |
 |---|---|---|---|
 | EXP-ENV: T4 build/preflight | Passed initial run | Fresh compiler logs, metadata, inventory and verified hashes; 38 foundation tests passed | [F02 review](06-f02-gpu-evidence-review.md) |
 | EXP-NUM: native correctness | Passed initial suite | 223 tests passed; no failures/errors/skips; sanitizer coverage pending | [F02 review](06-f02-gpu-evidence-review.md) |
 | EXP-REG: framework registration | Passed initial suite | 10 native framework and 32 metadata cases passed; 223 numerical regressions passed | [F03 review](07-f03-gpu-evidence-review.md) |
-| EXP-KERNEL: latency/traffic | Not run | Not yet measured | No raw timings |
+| EXP-KERNEL: operator latency | Preliminary single-session run | 88 cases, 5280 raw samples; eager/native comparisons only | [F04 review](08-f04-measurement-review.md) |
+| EXP-KERNEL: device-memory traffic | Not run | Not yet measured | No profiling |
 | EXP-MODEL: numeric/generation/performance | Not run | Not yet measured | No model execution |
 | EXP-SERVE: client experience | Not run | Not yet measured | No server implementation or endpoint |
 | EXP-REPRO: independent contributor | Not run | Not yet measured | No contributor artifacts |
 
-The C2 compatibility candidate is not a passing support matrix. Contributor setup logs are partial environment evidence, not GPU execution qualification. Documentation validation, source inspection and algebraic memory estimates are not GPU qualification. No speedup, TTFT reduction, VRAM saving, throughput increase or operational cost reduction is established.
+The C2 compatibility candidate is not a passing support matrix. Contributor setup logs are partial environment evidence, not GPU execution qualification. Documentation validation, source inspection and algebraic memory estimates are not GPU qualification. Only the scoped operator comparisons in the F04 report are established. No model speedup, TTFT reduction, VRAM saving, serving throughput increase or operational cost reduction is established.
 
 ## Per-run report to add after execution
 
