@@ -1,5 +1,7 @@
 # Aegis-Norm
 
+The next [geometry experiment](doc/implementation/05-geometry128-experiment.md) compares an explicitly loaded 128-thread candidate against the retained 256-thread operator. Candidate qualification and timing results are pending.
+
 The [F04 measurement foundation](doc/implementation/04-kernel-measurements.md) and [measurement notebook](notebooks/04-t4-kernel-measurements.ipynb) are implemented for the next T4 run. Initial paired operator timings are reviewed in the [F04 report](doc/evaluation/08-f04-measurement-review.md); the existing kernel is unchanged.
 
 F03 framework registration passed its initial T4 qualification: 42 registration/metadata tests and 223 numerical regression tests. See the [evidence review](doc/evaluation/07-f03-gpu-evidence-review.md). See the [framework walkthrough](doc/implementation/03-framework-registration.md) and [F03 notebook](notebooks/03-t4-framework-registration.ipynb).

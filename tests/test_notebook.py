@@ -12,6 +12,7 @@ import pytest
         "02-t4-rmsnorm-correctness.ipynb",
         "03-t4-framework-registration.ipynb",
         "04-t4-kernel-measurements.ipynb",
+        "05-t4-geometry128-experiment.ipynb",
     ],
 )
 def test_notebook_cells_are_executable_python_and_outputs_are_clean(name):

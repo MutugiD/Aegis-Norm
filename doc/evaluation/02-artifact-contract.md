@@ -1,6 +1,6 @@
 # Evaluation artifact contract
 
-The [F04 provisional harness](../implementation/04-kernel-measurements.md) exports a narrower f04-baseline-v1 bundle. Its explicit scope and missing release metadata must not be mistaken for full conformance to this F09 contract.
+The [F04 provisional harness](../implementation/04-kernel-measurements.md) exports narrower f04-baseline-v1 bundles; the geometry experiment uses f04-paired-v2 with explicit comparison/operator labels. Its explicit scope and missing release metadata must not be mistaken for full conformance to this F09 contract.
 
 Status: specified, schema version 1. [Example manifest](manifest.example.json) is a not-run template, not an execution record. Artifact validation is future test T-E01.
 

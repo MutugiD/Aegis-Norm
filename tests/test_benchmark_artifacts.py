@@ -8,8 +8,10 @@ from aegis_norm.benchmarks import kernel
 
 
 @pytest.mark.parametrize("failure", ["blocked", "interrupted", "case_failed", "completed"])
-def test_run_status_integrity_and_partial_recovery(tmp_path, monkeypatch, failure):
+@pytest.mark.parametrize("comparison", ["eager", "geometry128"])
+def test_run_status_integrity_and_partial_recovery(tmp_path, monkeypatch, failure, comparison):
     import aegis_norm
+    from aegis_norm import experiments
 
     monkeypatch.setattr(
         preflight,
@@ -21,9 +23,11 @@ def test_run_status_integrity_and_partial_recovery(tmp_path, monkeypatch, failur
         preflight, "collect", lambda: {"blockers": ["no T4"] if failure == "blocked" else []}
     )
     monkeypatch.setattr(aegis_norm, "load_native", lambda: None)
+    candidate_loads = []
+    monkeypatch.setattr(experiments, "load_128", lambda: candidate_loads.append(True))
     calls = []
 
-    def fake_case(case, *, seed, trials, emit):
+    def fake_case(case, *, seed, trials, emit, comparison):
         calls.append(case["case_id"])
         emit("correctness", {"case_id": case["case_id"], "passed": True})
         if len(calls) == 2:
@@ -35,12 +39,14 @@ def test_run_status_integrity_and_partial_recovery(tmp_path, monkeypatch, failur
 
     monkeypatch.setattr(kernel, "run_case", fake_case)
     if failure == "completed":
-        kernel.run(tmp_path, trials=2)
+        kernel.run(tmp_path, trials=2, comparison=comparison)
     else:
         with pytest.raises(KeyboardInterrupt if failure == "interrupted" else RuntimeError):
-            kernel.run(tmp_path, trials=2)
+            kernel.run(tmp_path, trials=2, comparison=comparison)
     (directory,) = tmp_path.iterdir()
     manifest = json.loads((directory / "manifest.json").read_text())
+    assert manifest["configuration"]["arm_operators"] == kernel.arm_labels(comparison)
+    assert len(candidate_loads) == int(comparison == "geometry128" and failure != "blocked")
     assert manifest["status"] == ("failed" if failure in ("blocked", "case_failed") else failure)
     assert manifest["finished_at"]
     summary = json.loads((directory / "summary.json").read_text())
