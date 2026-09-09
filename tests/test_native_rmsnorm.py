@@ -17,14 +17,20 @@ pytestmark = [
 WIDTHS = [1, 7, 31, 32, 33, 96, 160, 255, 256, 257, 768, 1023, 1024, 2048, 4096, 5120, 8192, 65536]
 
 
-@pytest.fixture(scope="module", autouse=True)
-def native_operator():
+@pytest.fixture(scope="module", params=["baseline256", "candidate128"])
+def native_operator(request):
     load_native()
+    if request.param == "candidate128":
+        from aegis_norm.experiments import load_128
+
+        load_128()
+        return torch.ops.aegis_norm_experiments.rms_norm_128.default
+    return torch.ops.aegis_norm.rms_norm.default
 
 
-def compare(x, weight, eps=1e-5):
+def compare(native_operator, x, weight, eps=1e-5):
     before_x, before_weight = x.clone(), weight.clone()
-    actual = rms_norm(x, weight, eps, backend="cuda")
+    actual = native_operator(x, weight, eps)
     expected = rms_norm(x, weight, eps, backend="reference")
     atol, rtol = (2e-3, 2e-3) if x.dtype == torch.float16 else (1e-6, 2e-5)
     assert torch.equal(torch.isnan(actual), torch.isnan(expected))
@@ -44,13 +50,13 @@ def compare(x, weight, eps=1e-5):
 @pytest.mark.parametrize("dtype", [torch.float16, torch.float32])
 @pytest.mark.parametrize("width", WIDTHS)
 @pytest.mark.parametrize("rows,rank", [(1, 1), (3, 2), (32, 3)])
-def test_widths_rows_and_ranks(dtype, width, rows, rank):
+def test_widths_rows_and_ranks(dtype, width, rows, rank, native_operator):
     generator = torch.Generator(device="cuda").manual_seed(17)
     shape = (width,) if rank == 1 else ((rows, width) if rank == 2 else (1, rows, width))
     x = torch.randn(shape, device="cuda", dtype=dtype, generator=generator)
     weight = torch.rand(width, device="cuda", dtype=dtype, generator=generator) * 4 - 2
     with torch.inference_mode():
-        compare(x, weight)
+        compare(native_operator, x, weight)
 
 
 @pytest.mark.parametrize("dtype", [torch.float16, torch.float32])
@@ -59,7 +65,7 @@ def test_widths_rows_and_ranks(dtype, width, rows, rank):
 @pytest.mark.parametrize(
     "distribution", ["normal", "uniform", "constant", "alternating", "small", "large"]
 )
-def test_distributions_and_epsilon(dtype, seed, eps, distribution):
+def test_distributions_and_epsilon(dtype, seed, eps, distribution, native_operator):
     generator = torch.Generator(device="cuda").manual_seed(seed)
     x = torch.randn(3, 257, device="cuda", dtype=dtype, generator=generator)
     if distribution == "uniform":
@@ -75,11 +81,11 @@ def test_distributions_and_epsilon(dtype, seed, eps, distribution):
         x *= 1e3
     weight = torch.linspace(-2, 2, 257, device="cuda", dtype=dtype)
     with torch.inference_mode():
-        compare(x, weight, eps)
+        compare(native_operator, x, weight, eps)
 
 
 @pytest.mark.parametrize("dtype", [torch.float16, torch.float32])
-def test_special_values(dtype):
+def test_special_values(dtype, native_operator):
     with torch.inference_mode():
         for value in (
             0,
@@ -90,39 +96,41 @@ def test_special_values(dtype):
             float("nan"),
         ):
             x = torch.full((3, 33), value, device="cuda", dtype=dtype)
-            compare(x, torch.ones(33, device="cuda", dtype=dtype))
+            compare(native_operator, x, torch.ones(33, device="cuda", dtype=dtype))
         x = torch.ones(3, 33, device="cuda", dtype=dtype)
         for value in (0, float("inf"), -float("inf"), float("nan")):
-            compare(x, torch.full((33,), value, device="cuda", dtype=dtype))
+            compare(native_operator, x, torch.full((33,), value, device="cuda", dtype=dtype))
 
 
 @pytest.mark.parametrize("dtype", [torch.float16, torch.float32])
-def test_empty_and_unaligned_contiguous_inputs(dtype):
+def test_empty_and_unaligned_contiguous_inputs(dtype, native_operator):
     with torch.inference_mode():
         compare(
-            torch.empty(0, 7, device="cuda", dtype=dtype), torch.ones(7, device="cuda", dtype=dtype)
+            native_operator,
+            torch.empty(0, 7, device="cuda", dtype=dtype),
+            torch.ones(7, device="cuda", dtype=dtype),
         )
         x = torch.arange(3 * 33 + 1, device="cuda", dtype=dtype)[1:].reshape(3, 33)
         weight = torch.linspace(-1, 1, 34, device="cuda", dtype=dtype)[1:]
-        compare(x, weight)
+        compare(native_operator, x, weight)
 
 
-def test_side_stream_ordering():
+def test_side_stream_ordering(native_operator):
     stream = torch.cuda.Stream()
     stream.wait_stream(torch.cuda.current_stream())
     with torch.inference_mode(), torch.cuda.stream(stream):
         x = torch.empty(3, 257, device="cuda").fill_(3)
         weight = torch.ones(257, device="cuda")
-        actual = rms_norm(x, weight, 1e-5, backend="cuda") + 2
+        actual = native_operator(x, weight, 1e-5) + 2
         expected = rms_norm(x, weight, 1e-5, backend="reference") + 2
     stream.synchronize()
     torch.testing.assert_close(actual, expected, atol=1e-6, rtol=2e-5)
 
 
-def test_auto_and_raw_validation():
+def test_auto_and_raw_validation(native_operator):
     x = torch.ones(3, 33, device="cuda")
     weight = torch.ones(33, device="cuda")
-    raw = torch.ops.aegis_norm.rms_norm
+    raw = native_operator
     with torch.inference_mode():
         assert explain_dispatch(x, weight, 1e-5).backend == "cuda"
         sliced = x[:, ::2]
@@ -148,7 +156,7 @@ def test_auto_and_raw_validation():
                 raw(*args)
 
 
-def test_gradients_use_reference_or_fail_strictly():
+def test_gradients_use_reference_or_fail_strictly(native_operator):
     with torch.enable_grad():
         x = torch.ones(3, 33, device="cuda", requires_grad=True)
         weight = torch.ones(33, device="cuda", requires_grad=True)
@@ -158,4 +166,4 @@ def test_gradients_use_reference_or_fail_strictly():
         with pytest.raises(RuntimeError, match="active_gradients"):
             rms_norm(x, weight, 1e-5, backend="cuda")
         with pytest.raises(RuntimeError, match="inference-only"):
-            torch.ops.aegis_norm.rms_norm(x, weight, 1e-5)
+            native_operator(x, weight, 1e-5)

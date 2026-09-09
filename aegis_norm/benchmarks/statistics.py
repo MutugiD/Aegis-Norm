@@ -30,7 +30,8 @@ def summarize(samples, *, trials, resamples=10000):
         raise ValueError("Invalid trial/bootstrap count")
     pairs = {}
     signatures = {
-        tuple(
+        (row.get("comparison", "eager"),)
+        + tuple(
             row[key]
             for key in ("case_id", "rows", "hidden", "dtype", "eps", "seed", "timing_scope")
         )

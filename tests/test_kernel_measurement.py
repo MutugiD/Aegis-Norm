@@ -17,8 +17,13 @@ pytestmark = [
 ]
 
 
-def test_real_paired_operator_measurement():
+@pytest.mark.parametrize("comparison", ["eager", "geometry128"])
+def test_real_paired_operator_measurement(comparison):
     load_native()
+    if comparison == "geometry128":
+        from aegis_norm.experiments import load_128
+
+        load_128()
     records = []
     case = {
         "case_id": "measurement-test",
@@ -30,7 +35,11 @@ def test_real_paired_operator_measurement():
     }
     with torch.inference_mode():
         result = run_case(
-            case, seed=2026, trials=2, emit=lambda name, row: records.append((name, row))
+            case,
+            seed=2026,
+            comparison=comparison,
+            trials=2,
+            emit=lambda name, row: records.append((name, row)),
         )
     samples = [row for name, row in records if name == "samples"]
     assert len(samples) == 4
@@ -40,8 +49,13 @@ def test_real_paired_operator_measurement():
     assert records[0][0] == "correctness" and records[0][1]["passed"]
 
 
-def test_numerical_failure_prevents_timing(monkeypatch):
+@pytest.mark.parametrize("comparison", ["eager", "geometry128"])
+def test_numerical_failure_prevents_timing(monkeypatch, comparison):
     load_native()
+    if comparison == "geometry128":
+        from aegis_norm.experiments import load_128
+
+        load_128()
     monkeypatch.setattr(kernel, "reference", lambda x, weight, eps: torch.zeros_like(x))
     records = []
     case = {
@@ -53,6 +67,12 @@ def test_numerical_failure_prevents_timing(monkeypatch):
         "offset": 0,
     }
     with torch.inference_mode(), pytest.raises(RuntimeError, match="Numerical gate failed"):
-        run_case(case, seed=2026, trials=2, emit=lambda name, row: records.append((name, row)))
+        run_case(
+            case,
+            seed=2026,
+            comparison=comparison,
+            trials=2,
+            emit=lambda name, row: records.append((name, row)),
+        )
     assert [name for name, _ in records] == ["correctness"]
     assert not records[0][1]["passed"]

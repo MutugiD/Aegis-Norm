@@ -12,7 +12,18 @@ from pathlib import Path
 
 from .statistics import summarize
 
-PROTOCOL = "f04-baseline-v1"
+PROTOCOL = "f04-paired-v2"
+
+
+def arm_labels(comparison):
+    if comparison == "eager":
+        return {"reference": "cast_ordered_eager", "native": "aegis_norm::rms_norm"}
+    if comparison == "geometry128":
+        return {
+            "reference": "aegis_norm::rms_norm",
+            "native": "aegis_norm_experiments::rms_norm_128",
+        }
+    raise ValueError("Unknown comparison")
 
 
 def write_json(path, data):
@@ -117,11 +128,12 @@ def timed_group(fn, repetitions):
     return {"elapsed_ms": start.elapsed_time(end), "host_elapsed_ms": host_ms}
 
 
-def run_case(case, *, seed, trials, emit):
+def run_case(case, *, seed, trials, emit, comparison="eager"):
     import torch
 
     from aegis_norm import explain_dispatch
 
+    labels = arm_labels(comparison)
     dtype = getattr(torch, case["dtype"])
     generator = torch.Generator(device="cuda").manual_seed(seed)
     count = case["rows"] * case["hidden"]
@@ -134,8 +146,19 @@ def run_case(case, *, seed, trials, emit):
         "reference": lambda: reference(x, weight, eps),
         "native": lambda: torch.ops.aegis_norm.rms_norm.default(x, weight, eps),
     }
-    check = errors(arms["native"](), arms["reference"]())
-    emit("correctness", {**case, "seed": seed, **check})
+    if comparison == "geometry128":
+        arms = {
+            "reference": lambda: torch.ops.aegis_norm.rms_norm.default(x, weight, eps),
+            "native": lambda: torch.ops.aegis_norm_experiments.rms_norm_128.default(x, weight, eps),
+        }
+    expected = reference(x, weight, eps)
+    check = errors(arms["native"](), expected)
+    baseline_check = errors(arms["reference"](), expected)
+    check["passed"] = check["passed"] and baseline_check["passed"]
+    emit(
+        "correctness",
+        {**case, "seed": seed, "comparison": comparison, "baseline_check": baseline_check, **check},
+    )
     if not check["passed"]:
         raise RuntimeError("Numerical gate failed for " + case["case_id"])
     # Related implementation: a passing tolerance check does not prove identical casting.
@@ -148,9 +171,10 @@ def run_case(case, *, seed, trials, emit):
             "version": torch.__version__,
             "timed": False,
             "semantics": "related_casting_not_guaranteed",
-            **errors(related, arms["reference"]()),
+            **errors(related, expected),
         },
     )
+    del expected, related
     for fn in arms.values():
         for _ in range(100):
             fn()
@@ -166,6 +190,8 @@ def run_case(case, *, seed, trials, emit):
                 "trial_id": pair,
                 "pair_id": pair,
                 "arm": arm,
+                "comparison": comparison,
+                "operator": labels[arm],
                 "position": position,
                 "status": "completed",
                 "repetitions": repetitions,
@@ -176,6 +202,8 @@ def run_case(case, *, seed, trials, emit):
             samples.append(row)
     return {
         **case,
+        "comparison": comparison,
+        "arm_operators": labels,
         "correctness_passed": True,
         "repetitions": repetitions,
         "groups_below_10ms": sum(s["elapsed_ms"] < 10 for s in samples),
@@ -213,11 +241,12 @@ def finish(output, manifest, summaries):
     (output / "checksums.sha256").write_text(hashes, encoding="utf-8")
 
 
-def run(output_root, *, profile="smoke", trials=30):
+def run(output_root, *, profile="smoke", trials=30, comparison="eager"):
     from aegis_norm import load_native
     from aegis_norm.preflight import collect, command, dependency_snapshot
 
     matrix = cases(profile)
+    labels = arm_labels(comparison)
     if type(trials) is not int or not 2 <= trials <= 100:
         raise ValueError("trials must be 2..100")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
@@ -236,6 +265,8 @@ def run(output_root, *, profile="smoke", trials=30):
         "model": None,
         "configuration": {
             "profile": profile,
+            "comparison": comparison,
+            "arm_operators": labels,
             "trials": trials,
             "warmups": 100,
             "seed": 2026,
@@ -282,13 +313,21 @@ def run(output_root, *, profile="smoke", trials=30):
             )
         build_start = time.perf_counter()
         load_native()
+        if comparison == "geometry128":
+            from aegis_norm.experiments import load_128
+
+            load_128()
         manifest["build_load_seconds"] = time.perf_counter() - build_start
         write_json(output / "manifest.json", manifest)
         import torch
 
         with torch.inference_mode():
             for index, case in enumerate(matrix):
-                summaries.append(run_case(case, seed=2026 + index, trials=trials, emit=emit))
+                summaries.append(
+                    run_case(
+                        case, seed=2026 + index, trials=trials, emit=emit, comparison=comparison
+                    )
+                )
                 write_json(
                     output / "summary.json", {"cases": summaries, "claim_status": "requires_review"}
                 )
@@ -309,8 +348,9 @@ def main():
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--profile", choices=["smoke", "required", "safety"], default="smoke")
     parser.add_argument("--trials", type=int, default=30)
+    parser.add_argument("--comparison", choices=["eager", "geometry128"], default="eager")
     args = parser.parse_args()
-    run(args.output_root, profile=args.profile, trials=args.trials)
+    run(args.output_root, profile=args.profile, trials=args.trials, comparison=args.comparison)
 
 
 if __name__ == "__main__":

@@ -36,6 +36,13 @@ def test_paired_ratio_and_units():
     assert result["host_elapsed_ms"]["arms"]["native"]["median_us"] == 20
 
 
+def test_comparisons_cannot_be_mixed():
+    rows = samples()
+    rows[0]["comparison"] = "geometry128"
+    with pytest.raises(ValueError, match="identical workload"):
+        summarize(rows, trials=4)
+
+
 @pytest.mark.parametrize(
     "change", ["missing", "duplicate", "repetitions", "nan", "negative", "status", "shape"]
 )
